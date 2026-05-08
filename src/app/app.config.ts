@@ -2,7 +2,12 @@ import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
+import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
+import { provideAuth, getAuth } from '@angular/fire/auth';
+
+import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import Aura from '@primeng/themes/aura';
+import { environment } from '../enviroments/environments';
 
 import { routes } from './app.routes';
 
@@ -18,6 +23,13 @@ export const appConfig: ApplicationConfig = {
           darkModeSelector: false
         }
       }
-    })
+    }),
+     provideFirebaseApp(() =>
+      initializeApp(environment.firebase)
+    ),
+
+    provideAuth(() => getAuth()),
+
+    provideFirestore(() => getFirestore())
   ]
 };

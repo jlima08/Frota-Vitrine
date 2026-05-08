@@ -14,8 +14,8 @@ import { FormsModule } from '@angular/forms';
 })
 export class LoginComponent {
 
-  username = signal<string>('');
-  password = signal<string>('');
+  // username = signal<string>('');
+  // password = signal<string>('');
   errorMessage = signal<string | null>(null);
 
   private authService = inject(AuthService);
@@ -23,13 +23,30 @@ export class LoginComponent {
 
   constructor() { }
 
-  onLogin(): void {
-    this.errorMessage.set(null);
-    if (this.authService.login(this.username(), this.password())) {
-      // Login bem-sucedido, o AuthService já redireciona
-    } else {
-      this.errorMessage.set('Usuário ou senha inválidos.');
-    }
+   email = '';
+  senha = '';
+
+  entrar() {
+    this.authService.login(this.email, this.senha)
+      .then(() => {
+        alert('Login realizado');
+
+        this.router.navigate(['restrito/veiculos']);
+      })
+      .catch(error => {
+        console.error(error);
+
+        alert('Erro no login');
+      });
   }
+
+  // onLogin(): void {
+  //   this.errorMessage.set(null);
+  //   if (this.authService.login(this.username(), this.password())) {
+  //     // Login bem-sucedido, o AuthService já redireciona
+  //   } else {
+  //     this.errorMessage.set('Usuário ou senha inválidos.');
+  //   }
+  // }
 
 }

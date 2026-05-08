@@ -1,63 +1,49 @@
-import { computed, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { Motorista } from '../interfaces/motorista.interface';
+import { Observable } from 'rxjs';
+import { addDoc, collection, collectionData, Firestore } from '@angular/fire/firestore';
+import {
+  doc,
+  updateDoc
+} from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MotoristasService {
+  private firestore = inject(Firestore);
 
-   private _motoristas = signal<Motorista[]>([
-    {
-      id: 1, nome: 'John', sobrenome: 'Lima', celular: '68999887766', cargo: 'Tecnico', senha: 'adminpassword', role: 'Administrador'
-    },
-    {
-      id: 2, nome: 'Anderson', sobrenome: 'Camargo', celular: '68999887766', cargo: 'Gerente', senha: 'adminpassword', role: 'Administrador'
-    },
-    {
-      id: 3, nome: 'Felipinho', sobrenome: 'safado', celular: '68999887766', cargo: 'Tecnico', senha: 'userpassword', role: 'Motorista'
-    },   
-    {
-      id: 4, nome: 'Cristian', sobrenome: 'Chefe', celular: '68999887766', cargo: 'CEO', senha: 'userpassword', role: 'Motorista'
-    },   
-    {
-      id: 5, nome: 'Ruan', sobrenome: 'Mendoça', celular: '68999887766', cargo: 'Tecnico', senha: 'userpassword', role: 'Motorista'
-    },   
-    {
-      id: 6, nome: 'Ruan', sobrenome: 'Mendoça', celular: '68999887766', cargo: 'Tecnico', senha: 'userpassword', role: 'Motorista'
-    },   
-    {
-      id: 7, nome: 'Ruan', sobrenome: 'Mendoça', celular: '68999887766', cargo: 'Tecnico', senha: 'userpassword', role: 'Motorista'
-    },   
-  ]);
+  cadastrar(motorista: Motorista) {
 
-  // Expondo o signal como um computed para garantir imutabilidade externa
-  motoristas = computed(() => this._motoristas());
-
-  constructor() { }
-
-  // Exemplo de método para adicionar um motorista
-  addMotorista(motorista: Motorista): void {
-    this._motoristas.update(currentMotoristas => [...currentMotoristas, motorista]);
-  }
-
-  // Exemplo de método para atualizar um motorista
-  updateMotorista(updatedMotorista: Motorista): void {
-    this._motoristas.update(currentMotoristas => 
-      currentMotoristas.map(m => m.id === updatedMotorista.id ? updatedMotorista : m)
+    const motoristaRef = collection(
+      this.firestore,
+      'usuarios'
     );
+
+    return addDoc(motoristaRef, motorista);
   }
 
-  deleteMotorista(id: number): void {
-    this._motoristas.update(currentMotoristas => 
-      currentMotoristas.filter(m => m.id !== id)
+  listar(): Observable<Motorista[]> {
+
+    const motoristaRef = collection(
+      this.firestore,
+      'usuarios'
     );
+
+    return collectionData(motoristaRef, {
+      idField: 'id'
+    }) as Observable<Motorista[]>;
   }
 
-  getMotoristaById(id: number): Motorista | undefined {
-    return this._motoristas().find(m => m.id === id);
-  }
+  atualizar(id: string, motorista: Partial<Motorista>) {
 
-  getMotoristaByNome(nome: string): Motorista | undefined {
-    return this._motoristas().find(m => m.nome === nome);
-  }
+  const motoristaDoc = doc(
+    this.firestore,
+    `usuarios/${id}`
+  );
+
+  return updateDoc(motoristaDoc, motorista);
+}
+
+   
 }

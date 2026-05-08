@@ -8,19 +8,19 @@ export class VeiculoService {
 
   private _veiculos = signal<Veiculo[]>([
     {
-      id: 1, modelo: 'Gol bolinha', ano: '2000', placa: 'OVG2441', cor: 'Prata'
+      id: 1, modelo: 'Gol bolinha', ano: '2000', placa: 'OVG2441', cor: 'Prata', status: true
     },
     {
-      id: 2, modelo: 'Gol g4', ano: '2001', placa: 'OVG2441', cor: 'Prata'
+      id: 2, modelo: 'Gol g4', ano: '2001', placa: 'OVG2441', cor: 'Prata', status: true
     },
     {
-      id: 3, modelo: 'Strada', ano: '2002', placa: 'OVG2441', cor: 'Branco'
+      id: 3, modelo: 'Strada', ano: '2002', placa: 'OVG2441', cor: 'Branco', status: true
     },   
     {
-      id: 4, modelo: 'Strada', ano: '2002', placa: 'OVG2441', cor: 'Branco'
+      id: 4, modelo: 'Strada', ano: '2002', placa: 'OVG2441', cor: 'Branco', status: true
     },   
     {
-      id: 5, modelo: 'Strada', ano: '2002', placa: 'OVG2441', cor: 'Branco'
+      id: 5, modelo: 'Strada', ano: '2002', placa: 'OVG2441', cor: 'Branco', status: true
     },   
   ]);
 

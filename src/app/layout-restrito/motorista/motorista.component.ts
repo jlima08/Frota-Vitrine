@@ -5,65 +5,173 @@ import { InputTextModule } from 'primeng/inputtext';
 import { CardPageComponent } from '../components/card-page/card-page.component';
 import { FloatLabel, FloatLabelModule } from 'primeng/floatlabel';
 import { MotoristasService } from '../../service/motoristas.service';
+import { Motorista } from '../../interfaces/motorista.interface';
+import { FormsModule } from '@angular/forms';
+import { SelectModule } from 'primeng/select';
 
-interface Motorista {
-  id: number;
-  nome: string;
-  sobrenome: string;
-  celular: string;
-  cargo: string;
-}
+
 
 @Component({
   selector: 'app-motorista',
-  imports: [ButtonModule, TableModule, InputTextModule, FloatLabelModule, CardPageComponent],
+  imports: [ButtonModule, TableModule, InputTextModule, FloatLabelModule, CardPageComponent, FormsModule, SelectModule],
   templateUrl: './motorista.component.html',
   styleUrl: './motorista.component.scss'
 })
 export class MotoristaComponent {
-  public motoristaService = inject(MotoristasService);
-  // public loading = signal<boolean>(false);
+
+   private motoristaService = inject(MotoristasService);  
+
+   roles = [
+  {
+    label: 'Administrador',
+    value: 'Administrador'
+  },
+  {
+    label: 'Motorista',
+    value: 'Motorista'
+  }
+];
+
+    motoristas: Motorista[] = [];
+
+  
+  motorista: Motorista = {
+  nome: '',
+  sobrenome: '',
+  celular: '',
+  cargo: '',
+  email: '',
+  role: 'Motorista'
+};
+  
   CadMotorista = false;
+  loading: boolean = false;
+  editando = false;
 
-   loading: boolean = false;
+  ngOnInit(): void {
 
-    load() {
+  this.motoristaService
+    .listar()
+    .subscribe(resposta => {
+
+      this.motoristas = resposta;
+    });
+}
+
+  load() {
         this.loading = true;
 
         setTimeout(() => {
             this.loading = false
         }, 2000);
-    }
-
+  }
   showCadMotorista(){
     this.CadMotorista = !this.CadMotorista;
   }
 
-  //  motoristas: Motorista[] = [
-  //   {
-  //     id: 1, nome: 'John', sobrenome: 'Lima', celular: '68999887766', cargo: 'Tecnico'
-  //   },
-  //   {
-  //     id: 2, nome: 'Anderson', sobrenome: 'Camargo', celular: '68999887766', cargo: 'Gerente'
-  //   },
-  //   {
-  //     id: 3, nome: 'Felipinho', sobrenome: 'safado', celular: '68999887766', cargo: 'Tecnico'
-  //   },   
-  //   {
-  //     id: 4, nome: 'Cristian', sobrenome: 'Chefe', celular: '68999887766', cargo: 'CEO'
-  //   },   
-  //   {
-  //     id: 5, nome: 'Ruan', sobrenome: 'Mendoça', celular: '68999887766', cargo: 'Tecnico'
-  //   },   
-  //   {
-  //     id: 6, nome: 'Ruan', sobrenome: 'Mendoça', celular: '68999887766', cargo: 'Tecnico'
-  //   },   
-  //   {
-  //     id: 7, nome: 'Ruan', sobrenome: 'Mendoça', celular: '68999887766', cargo: 'Tecnico'
-  //   },   
+  editarMotorista(motorista: Motorista) {
 
-  // ]
-  
+  this.editando = true;
+
+  this.CadMotorista = true;
+
+  this.motorista = {
+    ...motorista
+  };
+}
+
+  salvarMotorista() {
+
+  if (
+    !this.motorista.nome ||
+    !this.motorista.sobrenome ||
+    !this.motorista.celular ||
+    !this.motorista.cargo ||
+    !this.motorista.email ||
+    !this.motorista.role
+  ) {
+    alert('Preencha todos os campos');
+
+    return;
+  }
+
+  this.loading = true;
+
+  // EDITAR
+  if (this.editando && this.motorista.id) {
+
+    this.motoristaService
+      .atualizar(this.motorista.id, this.motorista)
+      .then(() => {
+
+        alert('Motorista atualizado');
+
+        this.resetFormulario();
+      })
+      .catch(error => {
+
+        console.error(error);
+
+        this.loading = false;
+      });
+
+    return;
+  }
+
+  // CADASTRAR
+  this.motoristaService
+    .cadastrar(this.motorista)
+    .then(() => {
+
+      alert('Motorista cadastrado');
+
+      this.resetFormulario();
+    })
+    .catch(error => {
+
+      console.error(error);
+
+      this.loading = false;
+    });
+}
+
+resetFormulario() {
+
+  this.motorista = {
+    nome: '',
+    sobrenome: '',
+    celular: '',
+    cargo: '',
+    email: '',
+    role: 'Motorista'
+  };
+
+  this.editando = false;
+
+  this.CadMotorista = false;
+
+  this.loading = false;
+}
+
+ buscarMotoristas() {
+    this.loading = true;
+
+    this.motoristaService
+      .listar()
+      .subscribe({
+        next: (resposta) => {
+          this.motoristas = resposta;
+
+          this.loading = false;
+        },
+
+        error: (erro) => {
+          console.error(erro);
+
+          this.loading = false;
+        }
+      });
+  }
 
   
 
