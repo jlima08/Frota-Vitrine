@@ -31,29 +31,32 @@
             </div>
             <div>
                <p-floatlabel>
-                    <input pInputText id="over_label" autocomplete="off"  [(ngModel)]="motorista.email" name="email" />
+                    <input pInputText id="over_label" autocomplete="off" type="email"  [(ngModel)]="motorista.email" name="email" />
                     <label for="over_label">Email</label>
                 </p-floatlabel>
             </div>
             <div>
-    <p-floatlabel>
-
-        <p-select
-            [options]="roles"
-            optionLabel="label"
-            optionValue="value"
-            [(ngModel)]="motorista.role"
-            name="role">
-        </p-select>
-
-        <label>Perfil</label>
-
-    </p-floatlabel>
-</div>
+                <p-floatlabel>
+                    <p-select
+                    [options]="roles"
+                    optionLabel="label"
+                    optionValue="value"
+                    [(ngModel)]="motorista.role"
+                    name="role">
+                    </p-select>
+                    <label>Perfil</label>
+                </p-floatlabel>
+            </div>
+            <div>
+                <p-floatlabel>
+                     <input pInputText id="over_label" autocomplete="off" type="password"  [(ngModel)]="motorista.senha" name="senha" />
+                    <label for="over_label">Senha</label>
+                </p-floatlabel>
+            </div>
 
             <div class="btn-form">
                 <p-button icon="pi pi-check" label="Salvar" [loading]="loading" (onClick)="salvarMotorista()" [raised]="true"  ></p-button>
-                <p-button icon="pi pi-times" label="Cancelar" severity="secondary" [raised]="true" ></p-button>
+                <p-button icon="pi pi-times" label="Cancelar" severity="secondary" [raised]="true" (onClick)="resetFormulario()" ></p-button>
             </div>
             
         </form>

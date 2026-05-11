@@ -1,19 +1,45 @@
+.gradiente{
+    width: 100%;
+    height: 22px;
+    background: linear-gradient( to left, #636363, #111111);
+}
+
+header{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    border-bottom: 1px solid #d4d4d4;
+    height: 82px;
+    i{
+        font-weight: 600;
+        font-size: larger;
+    }
+    .btns-header{
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+    }
+}
+
 .layout {
      display: flex;
-  
-  height: calc(100dvh - 72px);
+     height: 100dvh;
 }
-// app-topbar {
-//     position: fixed;
-//     z-index: 1000;
-//     width: 100%;
-//     }
+
+.centro{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
 
 main {
     
     display: flex;
     flex-direction: column;
     width: 100%;
+    flex: 1;
     overflow: auto;
 
     div {
@@ -27,20 +53,55 @@ main {
         width: 100%;
     }
 
-    app-footer {
-        width: 100%;
-    }
     
+}
+footer {
+    width: 100%;
+    height: 40px;
+    border: 1px solid #ebebeb;
+    display: flex;
+    justify-content: center;
 }
 
 /* SIDEBAR BASE */
-app-sidebar {
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
     width: 260px;
-    height: calc(100dvh - 72px);
+    height: 100dvh;
     transition: all 0.3s ease;
-    background: white;
-    
-    
+    background: #111111;
+    color: #f1f1f1;
+    padding: 18px;
+    .links{
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+        height: 100%;
+        margin-top: 20px;
+        color: #f1f1f1;
+        a{
+        padding: 8px;
+        width: 100%;
+        display: flex;
+        justify-content: start;
+        align-items: baseline;
+        gap: 6px;
+        font-weight: 500;
+        letter-spacing: 1px;
+    }
+    }
+
+    .link-ativo{
+     background-color: #585858;
+    color: #fff;
+    font-weight: 700;
+    border-radius: 12px;
+    scale: 1.06;
+    box-shadow: 1px 1px 5px #6b6b6b;    
+
+}
 }
 
 /* DESKTOP */

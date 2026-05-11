@@ -1,4 +1,4 @@
-<app-topbar (toggleSidebar)="toggleSidebar()"></app-topbar>
+<!-- <app-topbar (toggleSidebar)="toggleSidebar()"></app-topbar>
 
 <div class="layout">
   <div 
@@ -17,4 +17,48 @@
     <app-footer></app-footer>
   </main>
 
+</div> -->
+
+<div class="layout">
+  <div class="sidebar " [class.closed]="open">
+    
+    <p class="title">Administrador</p>
+
+    <div class="links">
+        <a routerLinkActive="link-ativo" routerLink="/restrito/veiculos"><i class="pi pi-car"></i> Veículos</a>
+        
+            <a routerLinkActive="link-ativo" routerLink="/restrito/relatorio"><i class="pi pi-file"></i> Relatórios</a>
+            <a routerLinkActive="link-ativo" routerLink="/restrito/motorista"><i class="pi pi-user"></i> Motoristas</a>
+            <a routerLinkActive="link-ativo" routerLink="/restrito/gerenciar-veiculos"><i class="pi pi-cog"></i> Gerenciar Veículos</a>
+        
+    </div>
+    
+  </div>
+  <div class="centro">
+    <header>
+      <div class="gradiente"></div>
+        <div class="btns-header">
+          <button class="cursor-pointer">
+              <i class="pi pi-bars"></i>
+          </button>
+          <p-button
+          size="small"
+          variant="outlined"
+          icon="pi pi-sign-out"
+          label="Sair"
+          severity="danger"
+          (onClick)="logout()">
+          </p-button>
+        </div>
+    </header>
+    <main>
+      <div>
+        <router-outlet></router-outlet>
+      </div>
+    </main>
+    <footer>
+      &#64;JONATAS LIMA
+    </footer>
+  </div>
 </div>
+

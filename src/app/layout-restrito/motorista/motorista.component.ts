@@ -8,6 +8,7 @@ import { MotoristasService } from '../../service/motoristas.service';
 import { Motorista } from '../../interfaces/motorista.interface';
 import { FormsModule } from '@angular/forms';
 import { SelectModule } from 'primeng/select';
+import { AuthService } from '../../service/auth.service';
 
 
 
@@ -19,7 +20,8 @@ import { SelectModule } from 'primeng/select';
 })
 export class MotoristaComponent {
 
-   private motoristaService = inject(MotoristasService);  
+   private motoristaService = inject(MotoristasService); 
+   private authService = inject(AuthService); 
 
    roles = [
   {
@@ -41,6 +43,7 @@ export class MotoristaComponent {
   celular: '',
   cargo: '',
   email: '',
+  senha: '',
   role: 'Motorista'
 };
   
@@ -88,6 +91,7 @@ export class MotoristaComponent {
     !this.motorista.celular ||
     !this.motorista.cargo ||
     !this.motorista.email ||
+    !this.motorista.senha ||
     !this.motorista.role
   ) {
     alert('Preencha todos os campos');
@@ -119,20 +123,42 @@ export class MotoristaComponent {
   }
 
   // CADASTRAR
-  this.motoristaService
-    .cadastrar(this.motorista)
-    .then(() => {
+  this.authService
+  .cadastrar(
+    this.motorista.email,
+    this.motorista.senha!
+  )
+  .then((credencial) => {
 
-      alert('Motorista cadastrado');
+    const motoristaFirestore = {
 
-      this.resetFormulario();
-    })
-    .catch(error => {
+      nome: this.motorista.nome,
+      sobrenome: this.motorista.sobrenome,
+      celular: this.motorista.celular,
+      cargo: this.motorista.cargo,
 
-      console.error(error);
+      email: this.motorista.email,
 
-      this.loading = false;
-    });
+      role: this.motorista.role,
+
+      uid: credencial.user.uid
+    };
+
+    return this.motoristaService
+      .cadastrar(motoristaFirestore);
+  })
+  .then(() => {
+
+    alert('Motorista cadastrado');
+
+    this.resetFormulario();
+  })
+  .catch(error => {
+
+    console.error(error);
+
+    this.loading = false;
+  });
 }
 
 resetFormulario() {

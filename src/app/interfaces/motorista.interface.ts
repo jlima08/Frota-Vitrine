@@ -5,5 +5,6 @@ export interface Motorista {
   celular: string;
   cargo: string;
   email: string;
+  senha?: string;
   role: 'Administrador' | 'Motorista';
 }
