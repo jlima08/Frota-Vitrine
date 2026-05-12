@@ -7,6 +7,8 @@ import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/rou
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from "primeng/button";
 import { AuthService } from '../service/auth.service';
+import { Auth, onAuthStateChanged } from '@angular/fire/auth';
+import { MotoristasService } from '../service/motoristas.service';
 
 
 @Component({
@@ -19,8 +21,31 @@ export class LayoutRestritoComponent {
   private authService = inject(AuthService);
 
 private router = inject(Router);
+private auth = inject(Auth);
+
+private motoristaService = inject(MotoristasService);
+
+usuario: any;
   sidebarOpen = false;
    open: boolean = false;
+
+   ngOnInit(): void {
+
+  onAuthStateChanged(this.auth, (usuarioLogado) => {
+
+    if (usuarioLogado) {
+
+      this.motoristaService
+        .buscarPorUid(usuarioLogado.uid)
+        .subscribe(resposta => {
+
+          this.usuario = resposta;
+
+          console.log(this.usuario);
+        });
+    }
+  });
+}
 
   toggleSidebar() {
     this.sidebarOpen = !this.sidebarOpen;

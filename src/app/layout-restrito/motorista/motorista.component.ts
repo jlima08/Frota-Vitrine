@@ -145,7 +145,10 @@ export class MotoristaComponent {
     };
 
     return this.motoristaService
-      .cadastrar(motoristaFirestore);
+      .cadastrar(
+        credencial.user.uid,
+        motoristaFirestore
+      );
   })
   .then(() => {
 

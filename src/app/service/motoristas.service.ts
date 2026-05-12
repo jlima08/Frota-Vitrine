@@ -1,7 +1,7 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { Motorista } from '../interfaces/motorista.interface';
 import { Observable } from 'rxjs';
-import { addDoc, collection, collectionData, Firestore } from '@angular/fire/firestore';
+import { addDoc, collection, collectionData, docData, Firestore, setDoc } from '@angular/fire/firestore';
 import {
   doc,
   updateDoc
@@ -13,14 +13,14 @@ import {
 export class MotoristasService {
   private firestore = inject(Firestore);
 
-  cadastrar(motorista: Motorista) {
+  cadastrar(uid: string, motorista: Motorista) {
 
-    const motoristaRef = collection(
-      this.firestore,
-      'usuarios'
-    );
+   const motoristaDoc = doc(
+    this.firestore,
+    `usuarios/${uid}`
+  );
 
-    return addDoc(motoristaRef, motorista);
+    return setDoc(motoristaDoc, motorista);
   }
 
   listar(): Observable<Motorista[]> {
@@ -43,6 +43,17 @@ export class MotoristasService {
   );
 
   return updateDoc(motoristaDoc, motorista);
+}
+buscarPorUid(uid: string) {
+
+  const motoristaDoc = doc(
+    this.firestore,
+    `usuarios/${uid}`
+  );
+
+  return docData(motoristaDoc, {
+    idField: 'id'
+  });
 }
 
    
