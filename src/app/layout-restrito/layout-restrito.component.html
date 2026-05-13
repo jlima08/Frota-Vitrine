@@ -22,17 +22,26 @@
 <div class="layout">
 
   <div class="sidebar " [class.closed]="open">    
-    <p class="title">Administrador</p>
+    <!-- <p class="title">Administrador</p> -->
     <div class="links">
-        <a routerLinkActive="link-ativo" routerLink="/restrito/veiculos"><i class="pi pi-car"></i> Veículos</a>        
+        <a routerLinkActive="link-ativo" routerLink="/restrito/veiculos"><i class="pi pi-car"></i> Veículos</a>
+        @if (usuario.role == 'Administrador') {        
           <a routerLinkActive="link-ativo" routerLink="/restrito/relatorio"><i class="pi pi-file"></i> Relatórios</a>
           <a routerLinkActive="link-ativo" routerLink="/restrito/motorista"><i class="pi pi-user"></i> Motoristas</a>
-          <a routerLinkActive="link-ativo" routerLink="/restrito/gerenciar-veiculos"><i class="pi pi-cog"></i> Gerenciar Veículos</a>        
+          <a routerLinkActive="link-ativo" routerLink="/restrito/gerenciar-veiculos"><i class="pi pi-cog"></i> Gerenciar Veículos</a>
+        }        
+        <a routerLinkActive="link-ativo" routerLink="/restrito/minha-conta"><i class="pi pi-user-edit"></i> Minha conta</a>
     </div>
     <div class="sidebar-end">
-      <span>
-        <p >{{ usuario?.nome }}</p>
-        <p>{{ usuario?.role }}</p>
+      <span class="details-user">
+        <div class="user">
+          <p-avatar [label]=" getIniciais(usuario?.nome, usuario?.sobrenome) " styleClass="mr-2" size="normal" />
+          <div class="flex flex-col">
+            <p class="text-[16px] font-bold">{{ usuario?.nome }} {{ usuario?.sobrenome }}</p>
+            <p class="text-[10px]">{{ usuario?.role }}</p>
+
+          </div>
+        </div>
         
       </span>
     </div>    
@@ -42,9 +51,14 @@
 
     <header>
       <div class="gradiente"></div>
-        <div class="btns-header">
-          <button class="cursor-pointer">
+        <div class="btns-header" >
+          <button class="cursor-pointer sm:invisible" (click)="toggleSidebar()">
+            @if (open == false) {
               <i class="pi pi-bars"></i>
+
+            }@else {
+              <i class="pi pi-times"></i>
+            }
           </button>
           <p-button
           size="small"

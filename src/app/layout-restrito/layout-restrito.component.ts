@@ -7,13 +7,16 @@ import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/rou
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from "primeng/button";
 import { AuthService } from '../service/auth.service';
-import { Auth, onAuthStateChanged } from '@angular/fire/auth';
+import { Auth, authState, onAuthStateChanged } from '@angular/fire/auth';
 import { MotoristasService } from '../service/motoristas.service';
+import { of, switchMap } from 'rxjs';
+import { AvatarModule } from 'primeng/avatar';
+import { AvatarGroupModule } from 'primeng/avatargroup';
 
 
 @Component({
   selector: 'app-layout-restrito',
-  imports: [TopbarComponent, SidebarComponent, FooterComponent, RouterOutlet, CommonModule, ButtonModule, RouterLink, RouterLinkActive],
+  imports: [TopbarComponent, SidebarComponent, FooterComponent, RouterOutlet, CommonModule, ButtonModule, RouterLink, RouterLinkActive, AvatarModule, AvatarGroupModule],
   templateUrl: './layout-restrito.component.html',
   styleUrl: './layout-restrito.component.scss'
 })
@@ -28,8 +31,9 @@ private motoristaService = inject(MotoristasService);
 usuario: any;
   sidebarOpen = false;
    open: boolean = false;
+   
 
-   ngOnInit(): void {
+  ngOnInit(): void {
 
   onAuthStateChanged(this.auth, (usuarioLogado) => {
 
@@ -38,6 +42,7 @@ usuario: any;
       this.motoristaService
         .buscarPorUid(usuarioLogado.uid)
         .subscribe(resposta => {
+          
 
           this.usuario = resposta;
 
@@ -47,9 +52,24 @@ usuario: any;
   });
 }
 
+getIniciais(nome: string | undefined , sobrenome: string | undefined): string {
+
+   const inicialNome = nome ? nome[0] : '';
+
+  const inicialSobrenome = sobrenome
+    ? sobrenome[0]
+    : '';
+
+  return (
+    inicialNome + inicialSobrenome
+  ).toUpperCase();
+}
+
   toggleSidebar() {
-    this.sidebarOpen = !this.sidebarOpen;
+    this.open = !this.open;
   }
+
+  
 
   // onToggle() {
   //   this.toggleSidebar.emit();

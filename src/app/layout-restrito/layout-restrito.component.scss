@@ -100,14 +100,30 @@ footer {
     font-weight: 700;
     border-radius: 12px;
     scale: 1.06;
-    box-shadow: 1px 1px 5px #6b6b6b;    
-
-}
+    box-shadow: 1px 1px 5px #6b6b6b;  
+    }
+    .details-user{
+        border-top: 1px solid #6b6b6b;
+        width: 100%;
+        height: 50px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        .user{
+            // border: 1px solid #6b6b6b;
+            border-radius: 18px;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+    }
+    
 }
 
 /* DESKTOP */
 @media (min-width: 768px) {
-    app-sidebar {
+    .sidebar {
         position: relative;
         transform: translateX(0);
     }
@@ -119,19 +135,18 @@ footer {
 
 /* MOBILE */
 @media (max-width: 767px) {
-    app-sidebar {
+    .sidebar {
         position: fixed;
         top: 72px;
         left: 0;
-        height: 100%;
+        height: calc(100dvh - 72px);
         width: 240px;
         transform: translateX(-100%);
         transition: transform 0.3s ease;
-        background: white;
         z-index: 1000;
     }
 
-    app-sidebar.open {
+    .sidebar.closed {
         transform: translateX(0);
     }
 

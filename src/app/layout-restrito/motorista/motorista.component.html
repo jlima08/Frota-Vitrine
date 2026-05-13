@@ -1,3 +1,37 @@
+<p-dialog
+  header="Confirmar exclusão"
+  [(visible)]="modalExcluir"
+  [modal]="true"
+  [style]="{ width: '25rem' }">
+
+  <p>
+    Deseja excluir o motorista
+    <strong>
+      {{ motoristaSelecionado?.nome }}
+    </strong>?
+  </p>
+
+  <div class="flex justify-end gap-2 mt-4">
+
+    <p-button
+      label="Cancelar"
+      severity="secondary"
+      (onClick)="
+        modalExcluir = false
+      ">
+    </p-button>
+
+    <p-button
+      label="Excluir"
+      severity="danger"
+      (onClick)="
+        excluirMotorista()
+      ">
+    </p-button>
+
+  </div>
+
+</p-dialog>
 <app-card-page title="Gerenciar Motoristas" icon="pi-user">
     <p-button label="Novo Motorista" severity="contrast" icon="pi pi-plus" cardPageRight (onClick)="showCadMotorista()" />
 
@@ -85,6 +119,15 @@
                     <td>{{ customer.email }}</td>
                     <td>{{ customer.role }}</td>
                     <td>
+                        <p-button
+  icon="pi pi-trash"
+  severity="danger"
+  [rounded]="true"
+  [outlined]="true"
+  (onClick)="
+    abrirModalExcluir(customer)
+  ">
+</p-button>
                         <p-button icon="pi pi-pencil" raised="true" [rounded]="true" [outlined]="true"  (onClick)="editarMotorista(customer)"></p-button>
                     </td>
                 </tr>

@@ -9,16 +9,20 @@ import { Motorista } from '../../interfaces/motorista.interface';
 import { FormsModule } from '@angular/forms';
 import { SelectModule } from 'primeng/select';
 import { AuthService } from '../../service/auth.service';
+import { DialogModule } from 'primeng/dialog';
 
 
 
 @Component({
   selector: 'app-motorista',
-  imports: [ButtonModule, TableModule, InputTextModule, FloatLabelModule, CardPageComponent, FormsModule, SelectModule],
+  imports: [ButtonModule, TableModule, InputTextModule, FloatLabelModule, CardPageComponent, FormsModule, SelectModule, DialogModule],
   templateUrl: './motorista.component.html',
   styleUrl: './motorista.component.scss'
 })
 export class MotoristaComponent {
+
+  modalExcluir = false;
+motoristaSelecionado?: Motorista;
 
    private motoristaService = inject(MotoristasService); 
    private authService = inject(AuthService); 
@@ -61,6 +65,13 @@ export class MotoristaComponent {
     });
 }
 
+abrirModalExcluir(motorista: Motorista) {
+
+  this.motoristaSelecionado = motorista;
+
+  this.modalExcluir = true;
+}
+
   load() {
         this.loading = true;
 
@@ -77,6 +88,7 @@ export class MotoristaComponent {
   this.editando = true;
 
   this.CadMotorista = true;
+  
 
   this.motorista = {
     ...motorista
@@ -121,6 +133,9 @@ export class MotoristaComponent {
 
     return;
   }
+  
+  
+  
 
   // CADASTRAR
   this.authService
@@ -162,6 +177,28 @@ export class MotoristaComponent {
 
     this.loading = false;
   });
+}
+
+excluirMotorista() {
+
+  if (
+    !this.motoristaSelecionado?.id
+  ) return;
+
+  this.motoristaService
+    .deletar(
+      this.motoristaSelecionado.id
+    )
+    .then(() => {
+
+      this.modalExcluir = false;
+
+      this.motoristaSelecionado = undefined;
+    })
+    .catch(error => {
+
+      console.error(error);
+    });
 }
 
 resetFormulario() {

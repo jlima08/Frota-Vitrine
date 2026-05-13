@@ -1,0 +1,55 @@
+<app-card-page
+  title="Minha Conta"
+  icon="pi pi-user">
+
+  <div class="form">
+
+    <div class="dados-usuario">
+
+    <p>
+        <strong>Nome: </strong>
+      <input type="text" pInputText value="{{usuario.nome}} {{usuario.sobrenome}}" disabled id="">
+    </p>
+
+    <p>
+        <strong>Email: </strong>
+        <input type="text" pInputText value="{{usuario.email}}" disabled id="">
+    </p>
+
+    <p>
+      <strong>Cargo: </strong>
+      <input type="text" pInputText value="{{usuario.cargo}}" disabled>
+    </p>
+    
+    <p>
+        <strong>Perfil: </strong>
+        <input type="text" pInputText value="{{usuario.role}}" disabled>
+    </p>
+
+  </div>
+
+    <div class="btns">
+        <p-floatlabel >
+          <input
+            pInputText
+            type="password"
+            [(ngModel)]="novaSenha" />
+          <label>Nova senha</label>
+        </p-floatlabel>
+        <p-floatlabel>
+          <input
+            pInputText
+            type="password"
+            [(ngModel)]="confirmarSenha" />
+          <label>Confirmar senha</label>
+        </p-floatlabel>
+        <p-button
+          label="Alterar senha"
+          icon="pi pi-check"
+          (onClick)="alterarSenha()">
+        </p-button>
+    </div>
+
+  </div>
+
+</app-card-page>
