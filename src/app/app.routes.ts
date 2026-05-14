@@ -39,6 +39,12 @@ export const routes: Routes = [
           import('./layout-restrito/gerenciar-veiculos/gerenciar-veiculos.component')
             .then(m => m.GerenciarVeiculosComponent)
       },
+      {
+        path: 'minha-conta',
+        loadComponent: () =>
+          import('./layout-restrito/minha-conta/minha-conta.component')
+            .then(m => m.MinhaContaComponent)
+      },
     ]
   }
 

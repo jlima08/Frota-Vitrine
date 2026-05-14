@@ -15,6 +15,12 @@
         gap: 20px;
         padding: 8px;
         margin-top: 15px;
+        div{
+            width: 15%;
+            input{
+                width: 100%;
+            }
+        }
     }
 
     div{
@@ -26,7 +32,14 @@
     .btn-form{
         flex-direction: row;
         gap: 10px;
+        
     }
+}
+.toast{
+    background-color: #585858;
+    padding: 12px;
+    border-radius: 12px;
+
 }
 
 @media screen and (min-width: 480px) {

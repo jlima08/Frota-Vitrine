@@ -7,7 +7,7 @@
   <p>
     Deseja excluir o motorista
     <strong>
-      {{ motoristaSelecionado?.nome }}
+      {{ motoristaSelecionado?.nome }} {{ motoristaSelecionado?.sobrenome }}
     </strong>?
   </p>
 
@@ -32,6 +32,16 @@
   </div>
 
 </p-dialog>
+
+<p-toast>
+    <ng-template let-message #message>
+        <div class="toast flex gap-2 items-center">
+            <i class="pi pi-info-circle text-white"></i>
+             <h3 class="text-white font-bold">Preencha todos os campos do Formulário</h3>
+            </div>
+    </ng-template>
+</p-toast>
+
 <app-card-page title="Gerenciar Motoristas" icon="pi-user">
     <p-button label="Novo Motorista" severity="contrast" icon="pi pi-plus" cardPageRight (onClick)="showCadMotorista()" />
 
@@ -72,6 +82,7 @@
             <div>
                 <p-floatlabel>
                     <p-select
+                    styleClass="w-full"
                     [options]="roles"
                     optionLabel="label"
                     optionValue="value"
@@ -89,7 +100,7 @@
             </div>
 
             <div class="btn-form">
-                <p-button icon="pi pi-check" label="Salvar" [loading]="loading" (onClick)="salvarMotorista()" [raised]="true"  ></p-button>
+                <p-button icon="pi pi-save" label="Salvar" [loading]="loading" (onClick)="salvarMotorista()" [raised]="true"  ></p-button>
                 <p-button icon="pi pi-times" label="Cancelar" severity="secondary" [raised]="true" (onClick)="resetFormulario()" ></p-button>
             </div>
             

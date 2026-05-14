@@ -10,14 +10,17 @@ import { FormsModule } from '@angular/forms';
 import { SelectModule } from 'primeng/select';
 import { AuthService } from '../../service/auth.service';
 import { DialogModule } from 'primeng/dialog';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 
 
 @Component({
   selector: 'app-motorista',
-  imports: [ButtonModule, TableModule, InputTextModule, FloatLabelModule, CardPageComponent, FormsModule, SelectModule, DialogModule],
+  imports: [ButtonModule, TableModule, InputTextModule, FloatLabelModule, CardPageComponent, FormsModule, SelectModule, DialogModule, ToastModule],
   templateUrl: './motorista.component.html',
-  styleUrl: './motorista.component.scss'
+  styleUrl: './motorista.component.scss',
+  providers: [MessageService]
 })
 export class MotoristaComponent {
 
@@ -54,6 +57,8 @@ motoristaSelecionado?: Motorista;
   CadMotorista = false;
   loading: boolean = false;
   editando = false;
+
+  constructor(private messageService: MessageService) {}
 
   ngOnInit(): void {
 
@@ -95,6 +100,10 @@ abrirModalExcluir(motorista: Motorista) {
   };
 }
 
+showMenssage() {
+        this.messageService.add({ severity: 'danger', summary: 'Info', detail: 'Preencha', life: 3000 });
+    }
+
   salvarMotorista() {
 
   if (
@@ -106,7 +115,8 @@ abrirModalExcluir(motorista: Motorista) {
     !this.motorista.senha ||
     !this.motorista.role
   ) {
-    alert('Preencha todos os campos');
+    // alert('Preencha todos os campos');
+    this.showMenssage()
 
     return;
   }

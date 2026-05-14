@@ -1,7 +1,7 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { Motorista } from '../interfaces/motorista.interface';
 import { Observable } from 'rxjs';
-import { addDoc, collection, collectionData, docData, Firestore, setDoc } from '@angular/fire/firestore';
+import { addDoc, collection, collectionData, deleteDoc, docData, Firestore, setDoc } from '@angular/fire/firestore';
 import {
   doc,
   updateDoc
@@ -54,6 +54,16 @@ buscarPorUid(uid: string) {
   return docData(motoristaDoc, {
     idField: 'id'
   });
+}
+
+deletar(id: string) {
+
+  const motoristaDoc = doc(
+    this.firestore,
+    `usuarios/${id}`
+  );
+
+  return deleteDoc(motoristaDoc);
 }
 
    
