@@ -42,6 +42,12 @@
 
 }
 
-@media screen and (min-width: 480px) {
+@media screen and (max-width: 600px) {
+    form{
+        flex-direction: column;
+        div{
+            width: 90% !important;
+        }
+    }
 
 }
