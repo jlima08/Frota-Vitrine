@@ -12,11 +12,12 @@ import { MotoristasService } from '../service/motoristas.service';
 import { of, switchMap } from 'rxjs';
 import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
+import { Tooltip, TooltipModule } from "primeng/tooltip";
 
 
 @Component({
   selector: 'app-layout-restrito',
-  imports: [TopbarComponent, SidebarComponent, FooterComponent, RouterOutlet, CommonModule, ButtonModule, RouterLink, RouterLinkActive, AvatarModule, AvatarGroupModule],
+  imports: [ RouterOutlet, CommonModule, ButtonModule, RouterLink, RouterLinkActive, AvatarModule, AvatarGroupModule, TooltipModule],
   templateUrl: './layout-restrito.component.html',
   styleUrl: './layout-restrito.component.scss'
 })

@@ -1,8 +1,8 @@
 export interface Veiculo {
-  id: number;
+  id?: string;
   modelo: string;
   ano: string;
   placa: string;
   cor: string;
-  status: boolean;
+  status: string;
 }

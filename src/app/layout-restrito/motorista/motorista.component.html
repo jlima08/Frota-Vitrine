@@ -1,109 +1,104 @@
-<p-dialog
-  header="Confirmar exclusão"
-  [(visible)]="modalExcluir"
-  [modal]="true"
-  [style]="{ width: '25rem' }">
+<p-dialog header="Confirmar exclusão" [(visible)]="modalExcluir" [modal]="true" [style]="{ width: '25rem' }">
 
-  <p>
-    Deseja excluir o motorista
-    <strong>
-      {{ motoristaSelecionado?.nome }} {{ motoristaSelecionado?.sobrenome }}
-    </strong>?
-  </p>
+    <p>
+        Deseja excluir o motorista
+        <strong>
+            {{ motoristaSelecionado?.nome }} {{ motoristaSelecionado?.sobrenome }}
+        </strong>?
+    </p>
 
-  <div class="flex justify-end gap-2 mt-4">
+    <div class="flex justify-end gap-2 mt-4">
 
-    <p-button
-      label="Cancelar"
-      severity="secondary"
-      (onClick)="
+        <p-button label="Cancelar" severity="secondary" (onClick)="
         modalExcluir = false
       ">
-    </p-button>
+        </p-button>
 
-    <p-button
-      label="Excluir"
-      severity="danger"
-      (onClick)="
+        <p-button label="Excluir" severity="danger" (onClick)="
         excluirMotorista()
       ">
-    </p-button>
+        </p-button>
 
-  </div>
+    </div>
 
 </p-dialog>
 
-<p-toast>
+<!-- <p-toast>
     <ng-template let-message #message>
         <div class="toast flex gap-2 items-center">
             <i class="pi pi-info-circle text-white"></i>
              <h3 class="text-white font-bold">Preencha todos os campos do Formulário</h3>
             </div>
     </ng-template>
-</p-toast>
+</p-toast> -->
+<p-toast></p-toast>
 
 <app-card-page title="Gerenciar Motoristas" icon="pi-user">
-    <p-button label="Novo Motorista" severity="contrast" icon="pi pi-plus" cardPageRight (onClick)="showCadMotorista()" />
+    <p-button label="Novo Motorista" severity="contrast" icon="pi pi-plus" cardPageRight
+        (onClick)="showCadMotorista()" />
 
-     @if (CadMotorista) {
+    @if (CadMotorista) {
     <div class="cadastrarMotorista">
         <h2 class=""><i class="pi pi-info-circle"></i> Insira as informações do motorista para cadastrar.</h2>
         <form action="">
             <div>
                 <p-floatlabel>
-                    <input pInputText id="over_label" autocomplete="off"  [(ngModel)]="motorista.nome" name="nome" />
+                    <input pInputText id="over_label" autocomplete="off" [(ngModel)]="motorista.nome" name="nome" />
                     <label for="over_label">Nome</label>
                 </p-floatlabel>
             </div>
             <div>
                 <p-floatlabel>
-                    <input pInputText id="over_label" autocomplete="off" [(ngModel)]="motorista.sobrenome" name="sobrenome" />
+                    <input pInputText id="over_label" autocomplete="off" [(ngModel)]="motorista.sobrenome"
+                        name="sobrenome" />
                     <label for="over_label">Sobrenome</label>
                 </p-floatlabel>
             </div>
             <div>
                 <p-floatlabel>
-                    <input pInputText id="over_label" autocomplete="off" [(ngModel)]="motorista.celular" name="celular"/>
+                    <input pInputText id="over_label" autocomplete="off" [(ngModel)]="motorista.celular"
+                        name="celular" />
                     <label for="over_label">Celular</label>
                 </p-floatlabel>
             </div>
             <div>
-               <p-floatlabel>
-                    <input pInputText id="over_label" autocomplete="off"  [(ngModel)]="motorista.cargo" name="cargo" />
+                <p-floatlabel>
+                    <p-select class="w-full" [options]="cargos" [(ngModel)]="motorista.cargo" name="cargo"
+                        inputId="cargo">
+                    </p-select>
                     <label for="over_label">Cargo</label>
                 </p-floatlabel>
             </div>
             <div>
-               <p-floatlabel>
-                    <input pInputText id="over_label" autocomplete="off" type="email"  [(ngModel)]="motorista.email" name="email" />
+                <p-floatlabel>
+                    <input pInputText id="over_label" autocomplete="off" type="email" [(ngModel)]="motorista.email"
+                        name="email" />
                     <label for="over_label">Email</label>
                 </p-floatlabel>
             </div>
             <div>
                 <p-floatlabel>
-                    <p-select
-                    styleClass="w-full"
-                    [options]="roles"
-                    optionLabel="label"
-                    optionValue="value"
-                    [(ngModel)]="motorista.role"
-                    name="role">
+                    <p-select styleClass="w-full" [options]="roles" optionLabel="label" optionValue="value"
+                        [(ngModel)]="motorista.role" name="role">
                     </p-select>
                     <label>Perfil</label>
                 </p-floatlabel>
             </div>
             <div>
                 <p-floatlabel>
-                     <input pInputText id="over_label" autocomplete="off" type="password"  [(ngModel)]="motorista.senha" name="senha" />
+                    <input pInputText id="over_label" autocomplete="off" type="password" [(ngModel)]="motorista.senha"
+                        name="senha" />
                     <label for="over_label">Senha</label>
                 </p-floatlabel>
             </div>
 
             <div class="btn-form">
-                <p-button icon="pi pi-save" label="Salvar" [loading]="loading" (onClick)="salvarMotorista()" [raised]="true"  ></p-button>
-                <p-button icon="pi pi-times" label="Cancelar" severity="secondary" [raised]="true" (onClick)="resetFormulario()" ></p-button>
+                <p-button icon="pi pi-save" label="Salvar" [loading]="loading" (onClick)="salvarMotorista()"
+                    [raised]="true"></p-button>
+                <p-button icon="pi pi-times" label="Cancelar" severity="secondary" [raised]="true"
+                    (onClick)="resetFormulario()"></p-button>
             </div>
-            
+
         </form>
     </div>
 
@@ -115,8 +110,8 @@
             <ng-template pTemplate="header">
                 <tr>
                     <th style="width:20%">Nome</th>
-                    <th style="width:15%">Celular</th>
-                    <th style="width:15%">Cargo</th>
+                    <th style="width:14%">Celular</th>
+                    <th style="width:14%">Cargo</th>
                     <th style="width:20%">Email</th>
                     <th style="width:20%">Permissão</th>
                     <th style="width:25%">Ações</th>
@@ -130,16 +125,11 @@
                     <td>{{ customer.email }}</td>
                     <td>{{ customer.role }}</td>
                     <td>
-                        <p-button
-  icon="pi pi-trash"
-  severity="danger"
-  [rounded]="true"
-  [outlined]="true"
-  (onClick)="
-    abrirModalExcluir(customer)
-  ">
-</p-button>
-                        <p-button icon="pi pi-pencil" raised="true" [rounded]="true" [outlined]="true"  (onClick)="editarMotorista(customer)"></p-button>
+                        <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true" (onClick)="abrirModalExcluir(customer)">
+                        </p-button>
+                        <p-button icon="pi pi-pencil" severity="info" raised="true" [rounded]="true" [outlined]="true"
+                            (onClick)="editarMotorista(customer)">
+                        </p-button>
                     </td>
                 </tr>
             </ng-template>

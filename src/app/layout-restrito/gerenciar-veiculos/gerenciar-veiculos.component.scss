@@ -19,6 +19,10 @@
         display: flex;
         flex-direction: column;
         margin-top: 10px;
+        width: 18%;
+        input{
+            width: 100%;
+        }
     }
 
     .btn-form{
@@ -27,6 +31,12 @@
     }
 }
 
-@media screen and (min-width: 480px) {
+@media screen and (max-width: 480px) {
+    .cadastrarVeiculo{
+        flex-direction: column !important;
+        div{
+            width: 90%;
+        }
+    }
 
 }

@@ -1,5 +1,6 @@
+<p-toast></p-toast>
 <app-card-page title="Gerenciar Veiculos" icon="pi-cog">
-    <p-button label="Novo Motorista" severity="contrast" icon="pi pi-plus" cardPageRight (onClick)="showCadastrarVeiculo()" />
+    <p-button label="Novo Veículo" severity="contrast" icon="pi pi-plus" cardPageRight (onClick)="showCadastrarVeiculo()" />
 
      @if (cadastrarVeiculo) {
     <div class="cadastrarVeiculo">
@@ -7,32 +8,40 @@
         <form action="">
             <div>
                 <p-floatlabel>
-                    <input pInputText id="over_label" autocomplete="off" />
+                    <input pInputText id="over_label" autocomplete="off" [(ngModel)]="veiculo.modelo" name="modelo" />
                     <label for="over_label">Modelo</label>
                 </p-floatlabel>
             </div>
             <div>
                 <p-floatlabel>
-                    <input pInputText id="over_label" autocomplete="off" />
+                    <input pInputText type="number" id="over_label" autocomplete="off" [(ngModel)]="veiculo.ano" name="ano" />
                     <label for="over_label">Ano</label>
                 </p-floatlabel>
             </div>
             <div>
                 <p-floatlabel>
-                    <input pInputText id="over_label" autocomplete="off" />
+                    <input pInputText id="over_label" autocomplete="off" [(ngModel)]="veiculo.placa" name="placa" maxlength="7" />
                     <label for="over_label">Placa</label>
                 </p-floatlabel>
             </div>
             <div>
                <p-floatlabel>
-                    <input pInputText id="over_label" autocomplete="off" />
+                    <input pInputText id="over_label" autocomplete="off" [(ngModel)]="veiculo.cor" name="cor" />
                     <label for="over_label">Cor</label>
+                </p-floatlabel>
+            </div>
+            <div>
+               <p-floatlabel>
+                    <p-select styleClass="w-full" [options]="statusVeiculo"
+                        [(ngModel)]="veiculo.status" name="status">
+                    </p-select>
+                    <label>Status</label>
                 </p-floatlabel>
             </div>
 
             <div class="btn-form">
-                <p-button icon="pi pi-check" label="Salvar" [loading]="loading" (onClick)="load()" [raised]="true"  ></p-button>
-                <p-button icon="pi pi-times" label="Cancelar" severity="secondary" [raised]="true" ></p-button>
+                <p-button icon="pi pi-check" label="Salvar" [loading]="loading" (onClick)="salvarVeiculo()" [raised]="true"  ></p-button>
+                <p-button icon="pi pi-times" label="Cancelar" severity="secondary" (onClick)="resetFormulario()" [raised]="true" ></p-button>
             </div>
             
         </form>
@@ -41,7 +50,7 @@
     }
 
     <div class="card">
-  <p-table [value]="veiculoService.veiculos()" stripedRows [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+  <p-table [value]="veiculos" stripedRows [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
     currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} veiculos" [rowsPerPageOptions]="[10, 25, 50]"
      [loading]="loading">
     <!-- <ng-template pTemplate="caption">
@@ -53,15 +62,26 @@
           <th pSortableColumn="ano">Ano <p-sortIcon field="ano"></p-sortIcon></th>
           <th >Placa</th>
           <th>Cor</th>
-          <th pSortableColumn="id"></th>
+          <th class="w-[12%]">Status</th>
+          <th>Ações</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-veiculo>
       <tr>
           <td>{{ veiculo.modelo }}</td>
           <td>{{ veiculo.ano }}</td>
-          <td>{{ veiculo.placa }}</td>
-          <td>{{ veiculo.cor }}</td>
+          <td>{{ veiculo.placa | uppercase }}</td>
+          <td>{{ veiculo.cor | uppercase}}</td>
+          <td>
+            @if (veiculo.status == 'Ativo') {
+                <p-message severity="success" size="small" icon="pi pi-check-circle">{{ veiculo.status}}</p-message>
+                
+            }@else {
+                <p-message severity="error" size="small" icon="pi pi-times-circle">{{ veiculo.status}}</p-message>
+
+            }
+            
+        </td>
           <td class="flex gap-2">
             <p-button severity="info" [rounded]="true"  [raised]="true" [outlined]="true" icon="pi pi-pencil" (click)="editarVeiculo(veiculo)" ></p-button>
             <p-button severity="danger" [rounded]="true" [outlined]="true" [raised]="true" icon="pi pi-trash" (click)="excluirVeiculo(veiculo.id)" ></p-button>

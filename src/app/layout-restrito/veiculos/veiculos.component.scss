@@ -1,20 +1,26 @@
 .main{
     width: 100%;
-    display: grid;
-  gap: 16px;
-
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  //   display: grid;
+  // gap: 16px;
+  // grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 }
 
 textarea{
   padding: 2px;
+}
+i{
+  font-size: 100px;
 }
 
 p-card{
     transition: all 0.3s;
     border-radius: 12px;
     overflow: hidden;
-    width: 100%;
+    min-width: 300px;
+    width: 30%;
 }
 
 p-card:hover{
@@ -22,13 +28,14 @@ p-card:hover{
     box-shadow: 1px 1px 10px #cacaca;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 700px) {
   .main {
     flex-direction: column;
   }
 
   p-card{
     width: 100% !important;
+    min-width: 200px !important;
   }
 }
 

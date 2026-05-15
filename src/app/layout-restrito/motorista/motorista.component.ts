@@ -53,6 +53,15 @@ motoristaSelecionado?: Motorista;
   senha: '',
   role: 'Motorista'
 };
+
+
+cargos = [
+  'Técnico',
+  'Gerente',
+  'Auxiliar Técnico',
+  'Monitoramento',
+  'Administrativo'
+];
   
   CadMotorista = false;
   loading: boolean = false;
@@ -101,7 +110,7 @@ abrirModalExcluir(motorista: Motorista) {
 }
 
 showMenssage() {
-        this.messageService.add({ severity: 'danger', summary: 'Info', detail: 'Preencha', life: 3000 });
+        this.messageService.add({ severity: 'error', summary: 'Motorista não cadastrado', detail: 'Preencha todos os campos', life: 3000 });
     }
 
   salvarMotorista() {
@@ -112,7 +121,6 @@ showMenssage() {
     !this.motorista.celular ||
     !this.motorista.cargo ||
     !this.motorista.email ||
-    !this.motorista.senha ||
     !this.motorista.role
   ) {
     // alert('Preencha todos os campos');
@@ -130,7 +138,8 @@ showMenssage() {
       .atualizar(this.motorista.id, this.motorista)
       .then(() => {
 
-        alert('Motorista atualizado');
+        // alert('Motorista atualizado');
+        this.messageService.add({ severity: 'info', summary: 'Motorista editado com sucesso', detail: '', life: 3000 });
 
         this.resetFormulario();
       })
