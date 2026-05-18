@@ -1,15 +1,43 @@
 <p-toast />
-<p-confirmdialog styleClass="w-[500px]" >
-    <ng-template  #message let-message>
-        <div class="flex flex-col items-center w-full gap-4 border-b border-surface-200 dark:border-surface-700">
-            <i [ngClass]="message.icon" class="!text-6xl text-primary-500"></i>
-            <p>
-                {{ message.message }} 
-            </p>
-            <textarea class="w-full" name="" id="" placeholder="Digite aqui se possui alguma observação sobre o veículo"></textarea>
+<p-dialog
+    header="Confirmar veículo"
+    [(visible)]="dialogVisible"
+    [modal]="true"
+    [style]="{ width: '30rem' }">
+
+    <div class="flex flex-col gap-4">
+        <p>
+            Você ficará responsável pelo veículo:
+            <b>{{ veiculoSelecionado?.modelo }}</b>
+        </p>
+        
+        <label for="">Observação:</label>
+        <textarea
+            pInputTextarea
+            
+            rows="3"
+            class="w-full border"
+            placeholder="Digite uma observação">
+        </textarea>
+
+        <div class="flex justify-end gap-2">
+
+            <p-button
+                label="Cancelar"
+                severity="secondary"
+                (click)="dialogVisible = false">
+            </p-button>
+
+            <p-button
+                label="Confirmar"
+                (click)="confirmarSelecionado()">
+            </p-button>
+
         </div>
-    </ng-template>
-</p-confirmdialog>
+
+    </div>
+
+</p-dialog>
 <div class="main">
     
     
@@ -38,7 +66,7 @@
             </span>
             <ng-template #footer>
                 <div class="flex gap-10 mt-1">
-                    <p-button label="Selecionar" severity="contrast"  class="w-full" styleClass="w-full" />
+                    <p-button label="Selecionar" severity="contrast" (click)="abrirDialog(carro)" class="w-full" styleClass="w-full" />
                 </div>
             </ng-template>
             

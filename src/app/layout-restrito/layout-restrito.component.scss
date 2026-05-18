@@ -87,18 +87,23 @@ footer {
         width: 100%;
         display: flex;
         justify-content: start;
-        align-items: baseline;
+        align-items: center;
+        // align-items: baseline;
         gap: 6px;
         font-weight: 500;
         letter-spacing: 1px;
+        i{
+            padding: 4px;
+        }
     }
     }
     .icone-carro{
         display: flex;
-        align-items: end;
-        .cog{
-            font-size: 10px;
-        }
+        align-items: center;
+        gap: 7px;        
+        // .cog{
+        //     font-size: 10px;
+        // }
     }
 
     .link-ativo{

@@ -186,7 +186,7 @@ showMenssage() {
   })
   .then(() => {
 
-    alert('Motorista cadastrado');
+    this.messageService.add({ severity: 'CADASTRO', summary: 'Motorista cadastrado com sucesso', detail: '', life: 3000 });
 
     this.resetFormulario();
   })

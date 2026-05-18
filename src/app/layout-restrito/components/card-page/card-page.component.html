@@ -2,6 +2,7 @@
     <div class="header">
         <div class="flex items-center gap-2">
             <i ngClass="pi + {{ icon }} "></i>
+            <ng-content select="[cardIcon]"></ng-content>
             <h2>{{ title }}</h2>
         </div>
 

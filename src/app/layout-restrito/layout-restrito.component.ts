@@ -47,7 +47,7 @@ usuario: any;
 
           this.usuario = resposta;
 
-          console.log(this.usuario);
+          // console.log(this.usuario);
         });
     }
   });
