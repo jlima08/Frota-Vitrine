@@ -1,5 +1,5 @@
 <p-toast></p-toast>
-<app-card-page title="Gerenciar Veiculos" >
+<app-card-page title="Gerenciar Veículos" >
     <span cardIcon class="material-symbols-outlined car">car_gear</span>
     <p-button label="Novo Veículo" severity="contrast" icon="pi pi-plus" cardPageRight (onClick)="showCadastrarVeiculo()" />
 
@@ -75,17 +75,35 @@
           <td>{{ veiculo.cor | uppercase}}</td>
           <td>
             @if (veiculo.status == 'Ativo') {
-                <p-message severity="success" size="small" icon="pi pi-check-circle">{{ veiculo.status}}</p-message>
+                <p-message styleClass="sm:w-[60%]" severity="success" size="small" icon="pi pi-check-circle">{{ veiculo.status}}</p-message>
                 
             }@else {
-                <p-message severity="error" size="small" icon="pi pi-times-circle">{{ veiculo.status}}</p-message>
+                <p-message styleClass="sm:w-[60%]" severity="error" size="small" icon="pi pi-times-circle">{{ veiculo.status}}</p-message>
 
             }
             
         </td>
           <td class="flex gap-2">
-            <p-button severity="info" [rounded]="true"  [raised]="true" [outlined]="true" icon="pi pi-pencil" (click)="editarVeiculo(veiculo)" ></p-button>
-            <p-button severity="danger" [rounded]="true" [outlined]="true" [raised]="true" icon="pi pi-trash" (click)="excluirVeiculo(veiculo.id)" ></p-button>
+            <p-button
+                pTooltip="Editar veículo" 
+                tooltipPosition="top" 
+                severity="info" 
+                [rounded]="true"  
+                [raised]="true" 
+                [outlined]="true"
+                 icon="pi pi-pencil" 
+                 (click)="editarVeiculo(veiculo)" >
+            </p-button>
+            <p-button 
+                pTooltip="Excluir veículo" 
+                tooltipPosition="top"
+                severity="danger" 
+                [rounded]="true" 
+                [outlined]="true" 
+                [raised]="true" 
+                icon="pi pi-trash" 
+                (click)="excluirVeiculo(veiculo.id)" >
+            </p-button>
           </td>
       </tr>
     </ng-template>

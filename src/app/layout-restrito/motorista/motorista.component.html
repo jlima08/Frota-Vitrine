@@ -109,7 +109,7 @@
             [rowsPerPageOptions]="[5, 10, 20]" [loading]="loading">
             <ng-template pTemplate="header">
                 <tr>
-                    <th style="width:20%">Nome</th>
+                    <th  pSortableColumn="nome" style="width:20%">Nome <p-sortIcon field="nome"></p-sortIcon></th>
                     <th style="width:14%">Celular</th>
                     <th style="width:14%">Cargo</th>
                     <th style="width:20%">Email</th>
@@ -124,10 +124,24 @@
                     <td>{{ customer.cargo }}</td>
                     <td>{{ customer.email }}</td>
                     <td>{{ customer.role }}</td>
-                    <td>
-                        <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true" (onClick)="abrirModalExcluir(customer)">
+                    <td class="flex gap-1">
+                        <p-button 
+                            pTooltip="Excluir motorista" 
+                            tooltipPosition="top" 
+                            icon="pi pi-trash" 
+                            severity="danger" 
+                            [rounded]="true" 
+                            [outlined]="true" 
+                            (onClick)="abrirModalExcluir(customer)">
                         </p-button>
-                        <p-button icon="pi pi-pencil" severity="info" raised="true" [rounded]="true" [outlined]="true"
+                        <p-button 
+                            pTooltip="Editar motorista" 
+                            tooltipPosition="top" 
+                            icon="pi pi-pencil" 
+                            severity="info" 
+                            raised="true" 
+                            [rounded]="true" 
+                            [outlined]="true"
                             (onClick)="editarMotorista(customer)">
                         </p-button>
                     </td>

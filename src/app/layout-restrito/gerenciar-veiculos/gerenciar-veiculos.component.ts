@@ -12,13 +12,14 @@ import { SelectModule } from 'primeng/select';
 import { ToastModule } from "primeng/toast";
 import { CommonModule } from '@angular/common';
 import { MessageModule } from 'primeng/message';
+import { TooltipModule } from 'primeng/tooltip';
 // import { v4 as uuid } from 'uuid';
 
 
 
 @Component({
   selector: 'app-gerenciar-veiculos',
-  imports: [CardPageComponent, TableModule, ButtonModule, FloatLabelModule, InputTextModule, FormsModule, SelectModule, ToastModule, CommonModule, MessageModule],
+  imports: [CardPageComponent, TableModule, ButtonModule, FloatLabelModule, InputTextModule, FormsModule, SelectModule, ToastModule, CommonModule, MessageModule, TooltipModule],
   templateUrl: './gerenciar-veiculos.component.html',
   styleUrl: './gerenciar-veiculos.component.scss',
   providers: [MessageService]

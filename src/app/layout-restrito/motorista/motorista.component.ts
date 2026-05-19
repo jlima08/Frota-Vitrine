@@ -12,12 +12,13 @@ import { AuthService } from '../../service/auth.service';
 import { DialogModule } from 'primeng/dialog';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { Tooltip, TooltipModule } from "primeng/tooltip";
 
 
 
 @Component({
   selector: 'app-motorista',
-  imports: [ButtonModule, TableModule, InputTextModule, FloatLabelModule, CardPageComponent, FormsModule, SelectModule, DialogModule, ToastModule],
+  imports: [ButtonModule, TableModule, InputTextModule, FloatLabelModule, CardPageComponent, FormsModule, SelectModule, DialogModule, ToastModule, TooltipModule],
   templateUrl: './motorista.component.html',
   styleUrl: './motorista.component.scss',
   providers: [MessageService]
