@@ -15,9 +15,10 @@
         <label for="">Observação:</label>
         <textarea
             pInputTextarea
-            
+            [(ngModel)]="observacao"
             rows="3"
             class="w-full border"
+             [autoResize]="true"
             placeholder="Digite uma observação">
         </textarea>
 
@@ -58,16 +59,18 @@
             </p>
             <span >
                  @if (carro.status == 'Ativo') {
-                <p-message severity="success" size="small" icon="pi pi-check-circle">{{ carro.status}}</p-message>
+                <p-message styleClass="sm:w-[25%]" severity="success" size="small" icon="pi pi-check-circle">{{ carro.status}}</p-message>
                 
-            }@else {
-                <p-message severity="error" size="small" icon="pi pi-times-circle">{{ carro.status}}</p-message>
-
+            }@else if (carro.status == 'Em uso') {
+                <p-message styleClass="sm:w-[25%]" severity="warn" size="small" icon="pi pi-info-circle">{{ carro.status}}</p-message>
+            }
+            @else {
+                <p-message styleClass="sm:w-[25%]" severity="error" size="small" icon="pi pi-times-circle">{{ carro.status}}</p-message>
             }
             </span>
             <ng-template #footer>
                 <div class="flex gap-10 mt-1">
-                    <p-button label="Selecionar" severity="contrast" (click)="abrirDialog(carro)" class="w-full" styleClass="w-full" />
+                    <p-button label="Selecionar" severity="contrast" (click)="abrirDialog(carro)" class="w-full" styleClass="w-full" [disabled]="carro.status !== 'Ativo'" />
                 </div>
             </ng-template>
             

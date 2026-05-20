@@ -4,5 +4,5 @@ export interface Veiculo {
   ano: string;
   placa: string;
   cor: string;
-  status: string;
+  status: 'Ativo' | 'Em uso' | 'Inativo';
 }

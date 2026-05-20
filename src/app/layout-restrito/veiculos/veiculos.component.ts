@@ -9,6 +9,12 @@ import { VeiculosService } from '../../service/veiculos.service';
 import { Veiculo } from '../../interfaces/veiculo.interface';
 import { MessageModule } from 'primeng/message';
 import { DialogModule } from "primeng/dialog";
+import { MovimentacaoService } from '../../service/movimentacao.service';
+import { Auth } from '@angular/fire/auth';
+import { MotoristasService } from '../../service/motoristas.service';
+import { Movimentacao } from '../../interfaces/movimentacao.interface';
+import { FormsModule } from '@angular/forms';
+import { TextareaModule } from 'primeng/textarea';
 
 
 @Component({
@@ -20,95 +26,156 @@ import { DialogModule } from "primeng/dialog";
     ToastModule,
     CommonModule,
     MessageModule,
-    DialogModule
-],
+    DialogModule,
+    FormsModule,
+    TextareaModule
+  ],
   templateUrl: './veiculos.component.html',
   styleUrl: './veiculos.component.scss',
   providers: [ConfirmationService, MessageService]
 })
 export class VeiculosComponent {
+  private movimentacaoService = inject(MovimentacaoService);
+  private auth = inject(Auth);
+  private motoristaService = inject(MotoristasService);
+  public veiculoService = inject(VeiculosService);
 
   dialogVisible = false;
-
-veiculoSelecionado?: Veiculo;
-
-observacao = '';
-
-  public veiculoService = inject(VeiculosService);
+  observacao = '';
+  
+  veiculoSelecionado?: Veiculo;
   veiculos: Veiculo[] = [];
+  usuario: any;
+   veiculo = this.veiculoSelecionado;
 
-  ngOnInit(): void {
+ ngOnInit(): void {
 
   this.veiculoService
     .listar()
     .subscribe(resposta => {
 
       this.veiculos = resposta;
-
-      console.log(this.veiculos);
     });
+
+  const usuarioLogado =
+    this.auth.currentUser;
+
+  if (usuarioLogado) {
+
+    this.motoristaService
+      .buscarPorUid(usuarioLogado.uid)
+      .subscribe(resposta => {
+
+        this.usuario = resposta;
+      });
+  }
 }
 
 
 
-   constructor(private confirmationService: ConfirmationService, private messageService: MessageService) {}
+  constructor(private confirmationService: ConfirmationService, private messageService: MessageService) { }
 
-   abrirDialog(carro: Veiculo) {
+  abrirDialog(carro: Veiculo) {
 
-  this.veiculoSelecionado = carro;
+    this.veiculoSelecionado = carro;
 
-  this.dialogVisible = true;
-}
+    this.dialogVisible = true;
+  }
 
-confirmarSelecionado() {
+  confirmarSelecionado() {
 
-  console.log(
-    'Veículo:',
-    this.veiculoSelecionado
-  );
+    const usuario = this.usuario;
 
-  console.log(
-    'Observação:',
-    this.observacao
-  );
+    if (!usuario || !this.veiculoSelecionado) {
+      return;
+    }    
 
-  this.messageService.add({
-    severity: 'success',
-    summary: 'Veículo selecionado',
-    detail: 'Responsabilidade registrada'
+   const veiculo =
+  this.veiculoSelecionado;
+
+const movimentacao: Movimentacao = {
+
+  motoristaId: usuario.id,
+
+  motoristaNome:
+    usuario.nome + ' ' + usuario.sobrenome,
+
+  veiculoId:
+    veiculo.id!,
+
+  modelo:
+    veiculo.modelo,
+
+  placa:
+    veiculo.placa,
+
+  observacao:
+    this.observacao,
+
+  dataRetirada:
+    new Date().toISOString(),
+
+  dataDevolucao: '',
+
+  status: 'Em uso'
+};
+
+this.movimentacaoService
+  .cadastrar(movimentacao)
+
+  .then(() => {
+
+    return this.veiculoService.atualizar(
+      veiculo.id!,
+      {
+        status: 'Em uso'
+      }
+    );
+  })
+
+  .then(() => {
+
+    this.messageService.add({
+
+      severity: 'success',
+
+      summary: 'Veículo selecionado',
+
+      detail: 'Movimentação registrada'
+    });
+
+    this.dialogVisible = false;
+
+    this.observacao = '';
   });
+  }
 
-  this.dialogVisible = false;
-
-  this.observacao = '';
-}
-
-    confirmarCar(carros: Veiculo) {
-        this.confirmationService.confirm({
-            header: 'Confirmação',
-            message: `Ao confirmar você ficará responsável pelo ${carros.modelo}`,
-            icon: 'pi pi-exclamation-circle',
-            rejectButtonProps: {
-                label: 'Cancelar',
-                icon: 'pi pi-times',
-                outlined: true,
-                size: 'small',
-                severity: 'danger'
-            },
-            acceptButtonProps: {
-                label: 'Selecionar',
-                icon: 'pi pi-check',
-                size: 'small'
-            },
-            accept: () => {
-                this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted', life: 3000 });
-                console.log('Carro selecionado:', carros);
-            },
-            reject: () => {
-                this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 3000 });
-            }
-        });
-    }
+  confirmarCar(carros: Veiculo) {
+    this.confirmationService.confirm({
+      header: 'Confirmação',
+      message: `Ao confirmar você ficará responsável pelo ${carros.modelo}`,
+      icon: 'pi pi-exclamation-circle',
+      rejectButtonProps: {
+        label: 'Cancelar',
+        icon: 'pi pi-times',
+        outlined: true,
+        size: 'small',
+        severity: 'danger'
+      },
+      acceptButtonProps: {
+        label: 'Selecionar',
+        icon: 'pi pi-check',
+        size: 'small'
+      },
+      accept: () => {
+        this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted', life: 3000 });
+        console.log('Carro selecionado:', carros);
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 3000 });
+      }
+    });
+  }
 
 
 }

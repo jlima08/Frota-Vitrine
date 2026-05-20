@@ -13,6 +13,9 @@ import { DialogModule } from 'primeng/dialog';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { Tooltip, TooltipModule } from "primeng/tooltip";
+import { initializeApp } from 'firebase/app';
+import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
+import { environment } from '../../../enviroments/environments';
 
 
 
@@ -154,12 +157,18 @@ showMenssage() {
     return;
   }
   
-  
-  
-
   // CADASTRAR
-  this.authService
-  .cadastrar(
+  const secondaryApp = initializeApp(
+    environment.firebase,
+    'Secondary'
+  );
+
+  const secondaryAuth = getAuth(
+    secondaryApp
+  );
+
+  createUserWithEmailAndPassword(
+    secondaryAuth,
     this.motorista.email,
     this.motorista.senha!
   )
@@ -187,7 +196,7 @@ showMenssage() {
   })
   .then(() => {
 
-    this.messageService.add({ severity: 'CADASTRO', summary: 'Motorista cadastrado com sucesso', detail: '', life: 3000 });
+    this.messageService.add({ severity: 'success', summary: 'Motorista cadastrado com sucesso', detail: '', life: 3000 });
 
     this.resetFormulario();
   })

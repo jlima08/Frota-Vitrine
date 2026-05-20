@@ -42,7 +42,7 @@ veiculo: Veiculo = {
   ano: '',
   placa: '',
   cor: '',
-  status: ''
+  status: 'Ativo'
 };
 
 statusVeiculo = [
@@ -158,7 +158,7 @@ resetFormulario() {
     ano: '',
     placa: '',
     cor: '',
-    status: ''
+    status: 'Ativo'
   };
 
   this.editando = false;
