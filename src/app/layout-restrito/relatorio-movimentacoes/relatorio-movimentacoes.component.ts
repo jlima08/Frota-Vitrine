@@ -9,22 +9,39 @@ import { CardPageComponent } from "../components/card-page/card-page.component";
 import { TooltipModule } from 'primeng/tooltip';
 import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
+import { VeiculosService } from '../../service/veiculos.service';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ToastModule } from "primeng/toast";
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { Auth } from '@angular/fire/auth';
+import { MotoristasService } from '../../service/motoristas.service';
+import { DialogModule } from "primeng/dialog";
 
 
 
 @Component({
   selector: 'app-relatorio-movimentacoes',
-  imports: [ButtonModule, CommonModule, TableModule, MessageModule, CardPageComponent, TooltipModule, FormsModule, InputTextModule, CommonModule],
+  imports: [ButtonModule, CommonModule, TableModule, MessageModule, CardPageComponent, TooltipModule, FormsModule, InputTextModule, CommonModule, ToastModule, ConfirmDialogModule, DialogModule],
   templateUrl: './relatorio-movimentacoes.component.html',
-  styleUrl: './relatorio-movimentacoes.component.scss'
+  styleUrl: './relatorio-movimentacoes.component.scss',
+  providers: [MessageService, ConfirmationService]
 })
 export class RelatorioMovimentacoesComponent {
 
-   private movimentacaoService = inject(MovimentacaoService);
+  private movimentacaoService = inject(MovimentacaoService);
+  private veiculoService = inject(VeiculosService);
+  private messageService = inject(MessageService)
+  private confirmationService =  inject(ConfirmationService);
+  private auth = inject(Auth);
+  private motoristaService = inject(MotoristasService);
 
-  movimentacoes:
-    Movimentacao[] = [];
-    movimentacoesOriginais: Movimentacao[] = [];
+  movimentacoes: Movimentacao[] = [];
+  movimentacoesOriginais: Movimentacao[] = [];
+  usuario: any;
+
+  modalObservacao = false;
+
+  observacaoSelecionada = '';
 
     //filtros
   filtroMotorista = '';
@@ -35,36 +52,96 @@ export class RelatorioMovimentacoesComponent {
 
   showFiltrosAvancados = false
 
+  abrirObservacao(observacao: string) {
+
+  this.observacaoSelecionada = observacao;
+
+  this.modalObservacao = true;
+}
+
   FiltrosAvancados(){
     this.showFiltrosAvancados = !this.showFiltrosAvancados
   }
 
   ngOnInit(): void {
 
-   this.movimentacaoService
-  .listar()
-  .subscribe(resposta => {
+  const usuarioLogado = this.auth.currentUser;
 
-    this.movimentacoes = resposta;
+  if (!usuarioLogado) return;
 
-    this.movimentacoesOriginais = resposta;
-  });
+  this.motoristaService
+    .buscarPorUid(usuarioLogado.uid)
+    .subscribe(usuario => {
+
+      this.usuario = usuario;
+
+      this.movimentacaoService
+        .listar()
+        .subscribe(resposta => {
+
+          let movimentacoesFiltradas = resposta;
+
+          // SE FOR MOTORISTA
+          if (this.usuario.role === 'Motorista') {
+
+            movimentacoesFiltradas = resposta.filter(mov =>
+
+              mov.motoristaId === this.usuario.id
+            );
+          }
+
+          // ORDENAR MAIS RECENTES
+          movimentacoesFiltradas.sort((a, b) => {
+
+            return new Date(b.dataRetirada).getTime()
+              - new Date(a.dataRetirada).getTime();
+          });
+
+          this.movimentacoes = movimentacoesFiltradas;
+
+          this.movimentacoesOriginais =
+            movimentacoesFiltradas;
+        });
+    });
+}
+
+ finalizar(movimentacao: Movimentacao) {
+
+  if (!movimentacao.id || !movimentacao.veiculoId) {
+    return;
   }
 
-  finalizar(
-    movimentacao:
-      Movimentacao
-  ) {
+  this.movimentacaoService.finalizarMovimentacao(movimentacao.id)
 
-    if (!movimentacao.id) {
-      return;
-    }
+    .then(() => {
 
-    this.movimentacaoService
-      .finalizarMovimentacao(
-        movimentacao.id
-      );
-  }
+      return this.veiculoService
+        .atualizar(
+          movimentacao.veiculoId,
+          {
+            status: 'Ativo'
+          }
+        );
+    })
+
+    .then(() => {
+
+      this.messageService.add({
+
+        severity: 'success',
+
+        summary: 'Veículo devolvido',
+
+        detail:
+          'Veículo disponível novamente'
+      });
+    })
+
+    .catch(error => {
+
+      console.error(error);
+    });
+}
 
   filtrar() {
 
@@ -136,5 +213,37 @@ limparFiltros() {
   this.movimentacoes =
     this.movimentacoesOriginais;
 }
+
+confirmarDevolucao(event: Event, mov: Movimentacao) {
+        this.confirmationService.confirm({
+            target: event.target as EventTarget,
+            message: 'Ao devolver o veículo ficará disponível para outro motorista',
+            header: 'Confirmação',
+            closable: true,
+            closeOnEscape: true,
+            icon: 'pi pi-exclamation-triangle',
+            rejectButtonProps: {
+                label: 'Cancelar',
+                severity: 'danger',
+                outlined: true,
+            },
+            acceptButtonProps: {
+                label: 'Devolver',
+                severity: 'info'
+            },
+            accept: () => {
+                this.messageService.add({ severity: 'info', summary: 'Veículo devolvido', detail: 'O veiculo voltarar a ficar disponivel' });
+                this.finalizar(mov);
+            },
+            reject: () => {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Rejected',
+                    detail: 'You have rejected',
+                    life: 3000,
+                });
+            },
+        });
+    }
 
 }

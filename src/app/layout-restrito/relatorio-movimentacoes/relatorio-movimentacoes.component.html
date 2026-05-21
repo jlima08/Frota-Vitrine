@@ -1,4 +1,23 @@
+<p-dialog
+  header="Observação"
+  [(visible)]="modalObservacao"
+  [modal]="true"
+  [style]="{ width: '30rem' }">
+
+  <div class="flex flex-col gap-4">
+
+    <!-- <i class="pi pi-file-edit"></i> -->
+
+    <p class="leading-7">
+      {{ observacaoSelecionada }}
+    </p>
+
+  </div>
+
+</p-dialog>
 <app-card-page title="Relatorios" icon="pi-file">
+  <p-toast />
+  <p-confirmdialog />
     <!-- <p-button styleClass="shadow-xl" label="Filtros anvaçados" severity="contrast" icon="pi pi-filter" cardPageRight /> -->
     <button class="pButton-sombra" (click)="FiltrosAvancados()" cardPageRight>
         @if (showFiltrosAvancados == false) {
@@ -13,11 +32,11 @@
 
         <input
             pInputText
-            placeholder="Motorista"
+            placeholder="Buscar por motorista"
             [(ngModel)]="filtroMotorista">
 
             
-        <div class="filtrosAvancados " [ngClass]=" {'invisible': !showFiltrosAvancados }">
+        <div class="filtrosAvancados " [ngClass]=" {'sm:invisible': !showFiltrosAvancados }">
             <input
                 pInputText
                 placeholder="Placa"
@@ -52,6 +71,7 @@
             </p-button>
             <p-button
                 label="Limpar"
+                [raised]="true"
                 severity="secondary"
                 icon="pi pi-times"
                 (onClick)="limparFiltros()">
@@ -61,6 +81,7 @@
 </div>
 <p-table
   [value]="movimentacoes"
+  [rowsPerPageOptions]="[5, 10, 20]"
   stripedRows
   [paginator]="true"
   [rows]="10">
@@ -72,8 +93,8 @@
       <th>Motorista</th>
       <th>Veículo</th>
       <th>Placa</th>
-      <th>Retirada</th>
-      <th>Devolução</th>
+      <th class="w-[12%]">Retirada</th>
+      <th class="w-[12%]">Devolução</th>
       <th>Status</th>
       <th class="max-w-[20%]">Observação</th>
       <th>Ações</th>
@@ -127,11 +148,24 @@
         }
       </td>
 
-      <td >
-        <p class="truncate max-w-[200px]" tooltipPosition="bottom" [pTooltip]="mov.observacao">
-            {{ mov.observacao }}
+      <td class="text-center" >
+         @if (mov.observacao) {
 
-        </p>
+            <p-button
+            label="Ver"
+              icon="pi pi-eye"
+              severity="contrast"
+              size="small"
+              (onClick)="abrirObservacao(mov.observacao)">
+            </p-button>
+
+          } @else {
+
+            <span>
+              Sem observação
+            </span>
+
+          }
       </td>
 
       <td>
@@ -145,7 +179,7 @@
             severity="success"
             (onClick)="finalizar(mov)">
           </p-button> -->
-          <button class="pButton-sombra-azul pButton-sombra" (click)="finalizar(mov)">
+          <button class="pButton-sombra-azul pButton-sombra" (click)="confirmarDevolucao($event, mov)">
             <i class="pi pi-check"></i>
             Devolver
           </button>

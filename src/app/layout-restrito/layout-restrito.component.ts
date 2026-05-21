@@ -13,21 +13,27 @@ import { of, switchMap } from 'rxjs';
 import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
 import { Tooltip, TooltipModule } from "primeng/tooltip";
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ToastModule } from "primeng/toast";
+import { ConfirmDialogModule } from "primeng/confirmdialog";
 
 
 @Component({
   selector: 'app-layout-restrito',
-  imports: [ RouterOutlet, CommonModule, ButtonModule, RouterLink, RouterLinkActive, AvatarModule, AvatarGroupModule, TooltipModule],
+  imports: [RouterOutlet, CommonModule, ButtonModule, RouterLink, RouterLinkActive, AvatarModule, AvatarGroupModule, TooltipModule, ToastModule, ConfirmDialogModule],
   templateUrl: './layout-restrito.component.html',
-  styleUrl: './layout-restrito.component.scss'
+  styleUrl: './layout-restrito.component.scss',
+  providers: [ConfirmationService, MessageService]
 })
 export class LayoutRestritoComponent {
+  anoAtual = new Date().getFullYear();
   private authService = inject(AuthService);
 
 private router = inject(Router);
 private auth = inject(Auth);
 
 private motoristaService = inject(MotoristasService);
+constructor(private confirmationService: ConfirmationService, private messageService: MessageService) {}
 
 usuario: any;
   sidebarOpen = false;
@@ -89,5 +95,30 @@ getIniciais(nome: string | undefined , sobrenome: string | undefined): string {
       console.error(error);
     });
 }
+
+confirmLogout(event: Event) {
+        this.confirmationService.confirm({
+            target: event.target as EventTarget,
+            message: 'Ao sair você será direcionado para o login.',
+            header: 'Confirmar Logout?',
+            icon: 'pi pi-info-circle',
+            rejectLabel: 'Cancel',
+            rejectButtonProps: {
+                label: 'Cancelar',
+                severity: 'secondary',
+                outlined: true,
+            },
+            acceptButtonProps: {
+                label: 'Sair',
+                severity: 'danger',
+            },
+            accept: () => {
+                this.logout()
+            },
+            reject: () => {
+                this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' });
+            },
+        });
+    }
 
 }

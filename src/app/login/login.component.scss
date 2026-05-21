@@ -33,3 +33,21 @@
         }
     }
 }
+
+@media screen and (max-width: 600px){
+    .cardLeft{
+        display: none;
+    }
+    .cardRight{
+        width: 100%;
+        flex-direction: column;
+        .titulo{
+            margin-bottom: 20px;
+            font-weight: 600;
+            font-size: 24px;
+        }
+    }
+    .main{
+        justify-content: center;
+    }
+}

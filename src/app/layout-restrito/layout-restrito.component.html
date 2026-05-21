@@ -18,15 +18,16 @@
   </main>
 
 </div> -->
-
+<p-toast />
+<p-confirmdialog />
 <div class="layout">
 
   <div class="sidebar " [class.closed]="open">    
     <!-- <p class="title">Administrador</p> -->
     <div class="links">
         <a routerLinkActive="link-ativo" routerLink="/restrito/veiculos"><i class="pi pi-car"></i> Veículos</a>
+        <a routerLinkActive="link-ativo" routerLink="/restrito/relatorio"><i class="pi pi-file"></i> Relatórios</a>
         @if (usuario.role == 'Administrador') {        
-          <a routerLinkActive="link-ativo" routerLink="/restrito/relatorio"><i class="pi pi-file"></i> Relatórios</a>
           <a routerLinkActive="link-ativo" routerLink="/restrito/motorista"><i class="pi pi-user"></i> Motoristas</a>
           <a routerLinkActive="link-ativo" routerLink="/restrito/gerenciar-veiculos">
             <div class="icone-carro">
@@ -50,7 +51,6 @@
           <div class="flex flex-col  overflow-hidden">
             <p pTooltip="{{ usuario?.nome }} {{ usuario?.sobrenome }}" class="text-[16px] font-bold overflow-hidden text-ellipsis text-nowrap">{{ usuario?.nome }} {{ usuario?.sobrenome }}</p>
             <p class="text-[10px]">{{ usuario?.role }}</p>
-
           </div>
         </div>
         
@@ -66,7 +66,6 @@
           <button class="cursor-pointer sm:invisible" (click)="toggleSidebar()">
             @if (open == false) {
               <i class="pi pi-bars"></i>
-
             }@else {
               <i class="pi pi-times"></i>
             }
@@ -77,7 +76,7 @@
           icon="pi pi-sign-out"
           label="Sair"
           severity="danger"
-          (onClick)="logout()">
+          (onClick)="confirmLogout($event)">
           </p-button>
         </div>
     </header>
@@ -88,10 +87,15 @@
       </div>
     </main>
 
+    
     <footer>
-      &#64;JONATAS LIMA
+      <span>
+        © {{ anoAtual }} - <a href="https://www.linkedin.com/in/jonatas-lima-7bb323240">Jonatas Lima</a>
+      </span>
+      <span>
+        Soares Segurança Eletronica 
+      </span>
     </footer>
-
   </div>
 </div>
 
