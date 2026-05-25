@@ -1,8 +1,4 @@
 import { Component, inject } from '@angular/core';
-import { TopbarComponent } from "../layouts/topbar/topbar.component";
-import { SidebarComponent } from "../layouts/sidebar/sidebar.component";
-import { FooterComponent } from "../layouts/footer/footer.component";
-import { AppComponent } from "../app.component";
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from "primeng/button";
@@ -89,7 +85,7 @@ getIniciais(nome: string | undefined , sobrenome: string | undefined): string {
 
   if (window.innerWidth <= 768) {
 
-    this.open = true;
+    this.open = false;
   }
 } 
 

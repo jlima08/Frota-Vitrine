@@ -51,6 +51,12 @@ export const routes: Routes = [
           import('./layout-restrito/minha-conta/minha-conta.component')
             .then(m => m.MinhaContaComponent)
       },
+      {
+        path: 'dashboard',
+        loadComponent: () =>
+          import('./layout-restrito/dashboard/dashboard.component')
+            .then(m => m.DashboardComponent)
+      },
     ]
   }
 
