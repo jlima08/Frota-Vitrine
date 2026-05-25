@@ -1,4 +1,5 @@
 <p-toast></p-toast>
+<p-confirmdialog></p-confirmdialog>
 <app-card-page title="Gerenciar Veículos" >
     <span cardIcon class="material-symbols-outlined car">car_gear</span>
     <p-button label="Novo Veículo" severity="contrast" icon="pi pi-plus" cardPageRight (onClick)="showCadastrarVeiculo()" />
@@ -9,13 +10,13 @@
         <form action="">
             <div>
                 <p-floatlabel>
-                    <input pInputText id="over_label" autocomplete="off" [(ngModel)]="veiculo.modelo" name="modelo" />
+                    <input pInputText id="over_label" autocomplete="off" maxlength="30" [(ngModel)]="veiculo.modelo" name="modelo" />
                     <label for="over_label">Modelo</label>
                 </p-floatlabel>
             </div>
             <div>
                 <p-floatlabel>
-                    <input pInputText type="number" id="over_label" autocomplete="off" [(ngModel)]="veiculo.ano" name="ano" />
+                    <input pInputText type="number" id="over_label"  autocomplete="off" [(ngModel)]="veiculo.ano" name="ano" />
                     <label for="over_label">Ano</label>
                 </p-floatlabel>
             </div>
@@ -27,7 +28,7 @@
             </div>
             <div>
                <p-floatlabel>
-                    <input pInputText id="over_label" autocomplete="off" [(ngModel)]="veiculo.cor" name="cor" />
+                    <input pInputText id="over_label" autocomplete="off" maxlength="18"  [(ngModel)]="veiculo.cor" name="cor" />
                     <label for="over_label">Cor</label>
                 </p-floatlabel>
             </div>
@@ -39,10 +40,23 @@
                     <label>Status</label>
                 </p-floatlabel>
             </div>
+            <div>
+                <p-floatlabel>
+                <p-select
+                styleClass="w-full"
+                [options]="tiposVeiculo"
+                optionLabel="label"
+                optionValue="value"
+                [(ngModel)]="veiculo.tipo"
+                name="tipo">
+                </p-select>
+                <label>Tipo do veículo</label>
+                </p-floatlabel>
+            </div>
 
             <div class="btn-form">
-                <p-button icon="pi pi-check" label="Salvar" [loading]="loading" (onClick)="salvarVeiculo()" [raised]="true"  ></p-button>
-                <p-button icon="pi pi-times" label="Cancelar" severity="secondary" (onClick)="resetFormulario()" [raised]="true" ></p-button>
+                <p-button icon="pi pi-save" label="Salvar" [loading]="loading" (onClick)="salvarVeiculo()" [raised]="true"  ></p-button>
+                <p-button icon="pi pi-times" label="Cancelar" severity="danger" (onClick)="resetFormulario()" outlined="true" [raised]="true" ></p-button>
             </div>
             
         </form>
@@ -60,6 +74,7 @@
     <ng-template pTemplate="header">
       <tr>
           <th pSortableColumn="modelo">Modelo <p-sortIcon field="modelo"></p-sortIcon></th>
+          <th >Tipo</th>
           <th pSortableColumn="ano">Ano <p-sortIcon field="ano"></p-sortIcon></th>
           <th >Placa</th>
           <th>Cor</th>
@@ -69,7 +84,8 @@
     </ng-template>
     <ng-template pTemplate="body" let-veiculo>
       <tr>
-          <td>{{ veiculo.modelo }}</td>
+          <td>{{ veiculo.modelo |uppercase }}</td>
+          <td>{{ veiculo.tipo | uppercase}}</td>
           <td>{{ veiculo.ano }}</td>
           <td>{{ veiculo.placa | uppercase }}</td>
           <td>{{ veiculo.cor | uppercase}}</td>
@@ -102,7 +118,7 @@
                 [outlined]="true" 
                 [raised]="true" 
                 icon="pi pi-trash" 
-                (click)="excluirVeiculo(veiculo.id)" >
+                (onClick)="confirmDelete($event, veiculo.id)" >
             </p-button>
           </td>
       </tr>

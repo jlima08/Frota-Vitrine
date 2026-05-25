@@ -38,6 +38,8 @@ constructor(private confirmationService: ConfirmationService, private messageSer
 usuario: any;
   sidebarOpen = false;
    open: boolean = false;
+
+   private timeout: any;
    
 
   ngOnInit(): void {
@@ -57,6 +59,13 @@ usuario: any;
         });
     }
   });
+
+  this.iniciarMonitoramento();
+}
+
+ngOnDestroy(): void {
+
+  clearTimeout(this.timeout);
 }
 
 getIniciais(nome: string | undefined , sobrenome: string | undefined): string {
@@ -73,14 +82,16 @@ getIniciais(nome: string | undefined , sobrenome: string | undefined): string {
 }
 
   toggleSidebar() {
+    
     this.open = !this.open;
+  } 
+  fecharSidebarMobile() {
+
+  if (window.innerWidth <= 768) {
+
+    this.open = true;
   }
-
-  
-
-  // onToggle() {
-  //   this.toggleSidebar.emit();
-  // }
+} 
 
   logout() {
 
@@ -111,14 +122,50 @@ confirmLogout(event: Event) {
             acceptButtonProps: {
                 label: 'Sair',
                 severity: 'danger',
+                icon: 'pi pi-sign-out'
             },
             accept: () => {
                 this.logout()
             },
             reject: () => {
-                this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' });
+                // this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' });
             },
         });
     }
+
+    iniciarMonitoramento() {
+
+  this.resetarTempo();
+
+  window.onmousemove =
+    () => this.resetarTempo();
+
+  window.onkeydown =
+    () => this.resetarTempo();
+
+  window.onclick =
+    () => this.resetarTempo();
+}
+
+resetarTempo() {
+
+  clearTimeout(this.timeout);
+
+  this.timeout = setTimeout(() => {
+
+    this.messageService.add({
+
+      severity: 'warn',
+
+      summary: 'Sessão encerrada',
+
+      detail:
+        'Você ficou muito tempo inativo'
+    });
+
+    this.logout();
+
+  }, 1000 * 60 * 20 );
+}
 
 }

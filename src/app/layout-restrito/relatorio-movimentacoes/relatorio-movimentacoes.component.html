@@ -19,7 +19,7 @@
   <p-toast />
   <p-confirmdialog />
     <!-- <p-button styleClass="shadow-xl" label="Filtros anvaçados" severity="contrast" icon="pi pi-filter" cardPageRight /> -->
-    <button class="pButton-sombra" (click)="FiltrosAvancados()" cardPageRight>
+    <button class="pButton-sombra invisible sm:visible" (click)="FiltrosAvancados()" cardPageRight>
         @if (showFiltrosAvancados == false) {
             <i class="pi pi-filter"></i>
             <p>Filtros anvançados</p>
@@ -112,7 +112,7 @@
       </td>
 
       <td>
-        {{ mov.modelo }}
+        {{ mov.modelo | uppercase}}
       </td>
 
       <td>

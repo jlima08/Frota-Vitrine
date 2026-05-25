@@ -7,27 +7,29 @@ import { FloatLabelModule } from "primeng/floatlabel";
 import { InputTextModule } from 'primeng/inputtext';
 import { Veiculo } from '../../interfaces/veiculo.interface';
 import { FormsModule } from '@angular/forms';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { SelectModule } from 'primeng/select';
 import { ToastModule } from "primeng/toast";
 import { CommonModule } from '@angular/common';
 import { MessageModule } from 'primeng/message';
 import { TooltipModule } from 'primeng/tooltip';
+import { ConfirmDialogModule } from "primeng/confirmdialog";
 // import { v4 as uuid } from 'uuid';
 
 
 
 @Component({
   selector: 'app-gerenciar-veiculos',
-  imports: [CardPageComponent, TableModule, ButtonModule, FloatLabelModule, InputTextModule, FormsModule, SelectModule, ToastModule, CommonModule, MessageModule, TooltipModule],
+  imports: [CardPageComponent, TableModule, ButtonModule, FloatLabelModule, InputTextModule, FormsModule, SelectModule, ToastModule, CommonModule, MessageModule, TooltipModule, ConfirmDialogModule],
   templateUrl: './gerenciar-veiculos.component.html',
   styleUrl: './gerenciar-veiculos.component.scss',
-  providers: [MessageService]
+  providers: [ConfirmationService, MessageService]
 })
 export class GerenciarVeiculosComponent {
  private veiculoService = inject(
   VeiculosService
 );
+
 
 veiculos: Veiculo[] = [];
 
@@ -42,8 +44,22 @@ veiculo: Veiculo = {
   ano: '',
   placa: '',
   cor: '',
-  status: 'Ativo'
+  status: 'Ativo',
+  tipo: 'Carro'
 };
+
+tiposVeiculo = [
+
+  {
+    label: 'Carro',
+    value: 'Carro'
+  },
+
+  {
+    label: 'Moto',
+    value: 'Moto'
+  }
+];
 
 statusVeiculo = [
   'Ativo',
@@ -66,7 +82,7 @@ showCadastrarVeiculo() {
     !this.cadastrarVeiculo;
 }
 
-constructor(private messageService: MessageService) {}
+constructor(private confirmationService: ConfirmationService, private messageService: MessageService) {}
 
 salvarVeiculo() {
 
@@ -151,6 +167,31 @@ excluirVeiculo(id?: string) {
     });
 }
 
+confirmDelete(event: Event, id?: string) {
+        this.confirmationService.confirm({
+            target: event.target as EventTarget,
+            message: 'Ao confirmar o veículo sera deletado para sempre.',
+            header: 'Confirmar Exclusão?',
+            icon: 'pi pi-info-circle',
+            rejectLabel: 'Cancel',
+            rejectButtonProps: {
+                label: 'Cancelar',
+                severity: 'secondary',
+                outlined: true,
+            },
+            acceptButtonProps: {
+                label: 'Excluir',
+                severity: 'danger',
+            },
+            accept: () => {
+                this.excluirVeiculo(id);
+            },
+            reject: () => {
+                // this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' });
+            },
+        });
+    }
+
 resetFormulario() {
 
   this.veiculo = {
@@ -158,7 +199,8 @@ resetFormulario() {
     ano: '',
     placa: '',
     cor: '',
-    status: 'Ativo'
+    status: 'Ativo',
+    tipo: 'Carro'
   };
 
   this.editando = false;
@@ -167,6 +209,8 @@ resetFormulario() {
 
   this.loading = false;
 }
+
+
 
 
 }

@@ -1,23 +1,4 @@
-<!-- <app-topbar (toggleSidebar)="toggleSidebar()"></app-topbar>
 
-<div class="layout">
-  <div 
-    class="overlay" 
-    *ngIf="sidebarOpen"
-    (click)="toggleSidebar()">
-  </div>
-
-  <app-sidebar 
-  [class.open]="sidebarOpen"></app-sidebar>
-
-  <main >
-    <div>
-      <router-outlet></router-outlet>
-    </div>
-    <app-footer></app-footer>
-  </main>
-
-</div> -->
 <p-toast />
 <p-confirmdialog />
 <div class="layout">
@@ -25,7 +6,7 @@
   <div class="sidebar " [class.closed]="open">    
     <!-- <p class="title">Administrador</p> -->
     <div class="links">
-        <a routerLinkActive="link-ativo" routerLink="/restrito/veiculos"><i class="pi pi-car"></i> Veículos</a>
+        <a routerLinkActive="link-ativo" (click)="fecharSidebarMobile()" routerLink="/restrito/veiculos"><i class="pi pi-car"></i> Veículos</a>
         <a routerLinkActive="link-ativo" routerLink="/restrito/relatorio"><i class="pi pi-file"></i> Relatórios</a>
         @if (usuario.role == 'Administrador') {        
           <a routerLinkActive="link-ativo" routerLink="/restrito/motorista"><i class="pi pi-user"></i> Motoristas</a>
@@ -65,9 +46,9 @@
         <div class="btns-header" >
           <button class="cursor-pointer sm:invisible" (click)="toggleSidebar()">
             @if (open == false) {
-              <i class="pi pi-bars"></i>
+              <p-button icon="pi pi-bars" severity="contrast" outlined="true" ></p-button>
             }@else {
-              <i class="pi pi-times"></i>
+              <p-button icon="pi pi-times" severity="contrast"  ></p-button>
             }
           </button>
           <p-button
@@ -90,7 +71,7 @@
     
     <footer>
       <span>
-        © {{ anoAtual }} - <a href="https://www.linkedin.com/in/jonatas-lima-7bb323240">Jonatas Lima</a>
+        © {{ anoAtual }} - <a target="_blank" href="https://www.linkedin.com/in/jonatas-lima-7bb323240">Jonatas Lima</a>
       </span>
       <span>
         Soares Segurança Eletronica 

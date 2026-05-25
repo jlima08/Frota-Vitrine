@@ -49,7 +49,11 @@
             <ng-template #header>
                 <!-- <img alt="Card" class="w-full" src="https://primefaces.org/cdn/primeng/images/card-ng.jpg" /> -->
                  <div class="w-full h-[100px] flex justify-center">
-                    <i class="pi pi-car text-[100px]"></i>
+                    @if (carro.tipo == 'Moto') {
+                        <span class="material-symbols-outlined icone-moto">two_wheeler</span>
+                    }@else {
+                        <i class="pi pi-car text-[100px]"></i>
+                    }
                  </div>
             </ng-template>
             <ng-template #title> {{ carro.modelo }} </ng-template>

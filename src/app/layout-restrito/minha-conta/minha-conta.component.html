@@ -7,23 +7,41 @@
     <div class="dados-usuario">
 
     <p>
-        <strong>Nome: </strong>
-      <input type="text" pInputText value="{{usuario.nome}} {{usuario.sobrenome}}" disabled id="">
+      <p-floatlabel >
+          <input
+            pInputText
+            value="{{usuario.nome}} {{usuario.sobrenome}}" disabled />
+          <label>Nome</label>
+        </p-floatlabel>
+        <!-- <strong>Nome: </strong>
+      <input type="text" pInputText value="{{usuario.nome}} {{usuario.sobrenome}}" disabled id=""> -->
     </p>
 
     <p>
-        <strong>Email: </strong>
-        <input type="text" pInputText value="{{usuario.email}}" disabled id="">
+       <p-floatlabel >
+          <input
+            pInputText
+            value="{{usuario.email}}" disabled />
+          <label>Email</label>
+        </p-floatlabel>
     </p>
 
     <p>
-      <strong>Cargo: </strong>
-      <input type="text" pInputText value="{{usuario.cargo}}" disabled>
+      <p-floatlabel >
+          <input
+            pInputText
+            value="{{usuario.cargo}}" disabled />
+          <label>Cargo</label>
+        </p-floatlabel>
     </p>
     
     <p>
-        <strong>Perfil: </strong>
-        <input type="text" pInputText value="{{usuario.role}}" disabled>
+        <p-floatlabel >
+          <input
+            pInputText
+            value="{{usuario.role}}" disabled />
+          <label>Perfil</label>
+        </p-floatlabel>
     </p>
 
   </div>

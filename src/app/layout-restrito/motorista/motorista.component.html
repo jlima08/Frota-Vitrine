@@ -34,7 +34,7 @@
 <p-toast></p-toast>
 
 <app-card-page title="Gerenciar Motoristas" icon="pi-user">
-    <p-button label="Novo Motorista" severity="contrast" icon="pi pi-plus" cardPageRight
+    <p-button label="Novo Motorista" severity="contrast" [raised]="true" icon="pi pi-plus" cardPageRight
         (onClick)="showCadMotorista()" />
 
     @if (CadMotorista) {
