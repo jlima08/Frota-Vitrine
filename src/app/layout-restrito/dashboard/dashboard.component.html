@@ -2,7 +2,7 @@
 
   <div class="cards">
   
-    <app-card-dashboard class="sm:!w-[50%]" title="Veículos cadastrados" icon="pi-car">
+    <app-card-dashboard class="md:!w-[50%]" title="Veículos cadastrados" icon="pi-car">
       <div class="card-centro">
         <div class="total">
           <p>Total de veículos cadastrados:</p>
@@ -18,10 +18,10 @@
 
     </app-card-dashboard  >
 
-    <div class="flex flex-col gap-4 sm:gap-2 sm:w-[45%]">
+    <div class="flex flex-col gap-4 sm:gap-2 sm:w-[50%]">
 
-      <div class="flex gap-2 w-full">
-        <app-card-dashboard class="w-[50%]" title="Administradores" icon="pi-user">
+      <div class="flex flex-col md:flex-row flex-wrap  gap-2 w-full">
+        <app-card-dashboard class="md:w-[48%]" title="Administradores" icon="pi-user">
           <div class="total-adm">
             <span>
               {{ totalAdministradores }}
@@ -30,7 +30,7 @@
         
         </app-card-dashboard>
         
-        <app-card-dashboard class="sm:w-[50%]" title="Motoristas" icon="pi-user">
+        <app-card-dashboard class="md:w-[48%]" title="Motoristas" icon="pi-user">
           <div class="total-adm">
             <span>
               {{ totalMotoristas }}
@@ -41,7 +41,7 @@
         </app-card-dashboard>
       </div>
 
-      <app-card-dashboard  title="Movimentações" icon="pi-file">
+      <app-card-dashboard class="w-full" title="Movimentações" icon="pi-file">
           
             <p-chart
               type="bar"

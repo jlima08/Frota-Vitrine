@@ -11,7 +11,7 @@
     justify-content: space-between;
     padding: 20px;
     span{
-        margin-right: 60px;
+        // margin-right: 60px;
         font-size: 40px;
         font-weight: 600;
     }
@@ -34,15 +34,21 @@
     span{
         font-size: 36px;
         font-weight: 600;
+        text-indent: inherit;
     }
 }
 
-@media screen and (max-width: 480px){
+@media screen and (max-width: 850px){
     .card-centro{
         flex-direction: column;
     }
     .cards{
         flex-direction: column;
         gap: 20px;
+    }
+    .total{
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
     }
 }

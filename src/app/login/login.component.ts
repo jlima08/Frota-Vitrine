@@ -36,7 +36,7 @@ export class LoginComponent {
          this.messageService.add({ severity: 'contrast', summary: 'Login realizado!', detail: 'Você será redirecionado para a areá restrita do sistema' });
 
          setTimeout(() => {
-           this.router.navigate(['restrito/veiculos']);
+           this.router.navigate(['restrito/dashboard']);
          }, 2000);
       })
       .catch(error => {
