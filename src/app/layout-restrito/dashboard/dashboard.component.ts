@@ -3,29 +3,217 @@ import { CardPageComponent } from "../components/card-page/card-page.component";
 import { Veiculo } from '../../interfaces/veiculo.interface';
 import { VeiculosService } from '../../service/veiculos.service';
 import { CommonModule } from '@angular/common';
+import { ChartModule } from 'primeng/chart';
+import { CardDashboardComponent } from '../components/card-dashboard/card-dashboard.component';
+import { RouterLink } from "@angular/router";
+import { MotoristasService } from '../../service/motoristas.service';
+import { Motorista } from '../../interfaces/motorista.interface';
+import { MovimentacaoService } from '../../service/movimentacao.service';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CardPageComponent, CommonModule],
+  imports: [CardPageComponent, CommonModule, ChartModule, CardDashboardComponent, RouterLink],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent {
-   private veiculoService = inject(
-  VeiculosService
-);
+  private veiculoService = inject(VeiculosService);
+  private motoristaService = inject(MotoristasService);
+  private movimentacaoService = inject(MovimentacaoService);
+  
+  data: any;
+  options: any;
 
+  totalAdministradores = 0;
+  totalMotoristas = 0;
 
-veiculos: Veiculo[] = [];
+  movimentacaoChart: any;
 
- ngOnInit(): void {
+movimentacaoOptions: any;
 
-  this.veiculoService
-    .listar()
-    .subscribe(resposta => {
+  veiculos: Veiculo[] = [];
+  motoristas: Motorista[] = [];
 
-      this.veiculos = resposta;
-    });
+  ngOnInit(): void {
+
+   this.veiculoService
+  .listar()
+  .subscribe(resposta => {
+
+    this.veiculos = resposta;
+
+    const ativos =
+      resposta.filter(
+        v => v.status === 'Ativo'
+      ).length;
+
+    const emUso =
+      resposta.filter(
+        v => v.status === 'Em uso'
+      ).length;
+
+    const inativos =
+      resposta.filter(
+        v => v.status === 'Inativo'
+      ).length;
+
+    this.data = {
+
+      labels: [
+        'Ativos',
+        'Em uso',
+        'Inativos'
+      ],
+
+       datasets: [
+
+    {
+
+      data: [
+
+        ativos,
+
+        emUso,
+
+        inativos
+      ],
+
+      backgroundColor: [
+
+        '#10b981',
+
+        '#f59e0b',
+
+        '#ef4444'
+      ],
+
+      hoverBackgroundColor: [
+
+        '#059669',
+
+        '#d97706',
+
+        '#dc2626'
+      ],
+
+      borderColor: '#ffffff',
+
+      borderWidth: 2
+    }
+  ]
+    };
+  });
+  this.motoristaService
+  .listar()
+  .subscribe(resposta => {
+
+    this.motoristas = resposta;
+
+    this.totalAdministradores =
+
+      resposta.filter(
+
+        usuario =>
+          usuario.role === 'Administrador'
+
+      ).length;
+
+    this.totalMotoristas =
+
+      resposta.filter(
+
+        usuario =>
+          usuario.role === 'Motorista'
+
+      ).length;
+  });
+  this.movimentacaoService
+  .listar()
+  .subscribe(resposta => {
+
+    const total =
+      resposta.length;
+
+    const emUso =
+
+      resposta.filter(
+
+        mov =>
+          mov.status === 'Em uso'
+
+      ).length;
+
+    const finalizadas =
+
+      resposta.filter(
+
+        mov =>
+          mov.status === 'Finalizado'
+
+      ).length;
+
+    this.movimentacaoChart = {
+
+      labels: [
+
+        'Total',
+
+        'Em uso',
+
+        'Finalizadas'
+      ],
+
+      datasets: [
+
+        {
+
+          label: 'Movimentações',
+
+          data: [
+
+            total,
+
+            emUso,
+
+            finalizadas
+          ],
+
+          backgroundColor: [
+
+            '#3b82f6',
+
+            '#f59e0b',
+
+            '#10b981'
+          ],
+
+          borderRadius: 8
+        }
+      ]
+    };
+
+    this.movimentacaoOptions = {
+
+      responsive: true,
+
+      plugins: {
+
+        legend: {
+
+          display: false
+        }
+      },
+
+      scales: {
+
+        y: {
+
+          beginAtZero: true
+        }
+      }
+    };
+  });
   }
+  
 
 }

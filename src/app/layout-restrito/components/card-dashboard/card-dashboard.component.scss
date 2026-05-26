@@ -1,0 +1,21 @@
+.card{
+    display: flex;
+    flex-direction: column;
+    box-shadow: 1px 1px 4px 2px #d6d6d6;
+    border-radius: 12px;
+    .header{
+        display: flex;
+        gap: 10px;
+        align-items: baseline;
+        width: 100%;
+        // border-bottom: 1px solid #d6d6d6;
+        padding: 12px;
+        i{
+            font-size: 24px;
+        }
+        span{
+            font-size: 24px;
+            font-weight: 600
+        }
+    }
+}
