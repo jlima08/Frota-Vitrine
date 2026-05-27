@@ -63,13 +63,13 @@
             </p>
             <span >
                  @if (carro.status == 'Ativo') {
-                <p-message styleClass="sm:w-[30%]" severity="success" size="small" icon="pi pi-check-circle">{{ carro.status}}</p-message>
+                <p-message styleClass="sm:w-[30%] min-w-[110px]" severity="success" size="small" icon="pi pi-check-circle">{{ carro.status}}</p-message>
                 
             }@else if (carro.status == 'Em uso') {
-                <p-message styleClass="sm:w-[30%]" severity="warn" size="small" icon="pi pi-info-circle">{{ carro.status}}</p-message>
+                <p-message styleClass="sm:w-[30%] min-w-[110px]" severity="warn" size="small" icon="pi pi-info-circle">{{ carro.status}}</p-message>
             }
             @else {
-                <p-message styleClass="sm:w-[30%]" severity="error" size="small" icon="pi pi-times-circle">{{ carro.status}}</p-message>
+                <p-message styleClass="sm:w-[30%] min-w-[110px]" severity="error" size="small" icon="pi pi-times-circle">{{ carro.status}}</p-message>
             }
             </span>
             <ng-template #footer>

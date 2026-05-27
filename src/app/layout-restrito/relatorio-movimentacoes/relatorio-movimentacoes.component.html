@@ -142,9 +142,9 @@
 
       <td>
         @if (mov.status === 'Em uso') {
-            <p-message styleClass="sm:w-[65%]" severity="warn" icon="pi pi-exclamation-circle" variant="outlined">Em uso</p-message>
+            <p-message styleClass="sm:w-[65%] min-w-[134px]"  severity="warn" icon="pi pi-exclamation-circle" variant="outlined">Em uso</p-message>
         } @else {
-            <p-message styleClass="sm:w-[90%]" severity="info" icon="pi pi-check-circle" variant="outlined">Finalizado</p-message>          
+            <p-message styleClass="sm:w-[65%] min-w-[134px]"  severity="info" icon="pi pi-check-circle" variant="outlined">Finalizado</p-message>          
         }
       </td>
 

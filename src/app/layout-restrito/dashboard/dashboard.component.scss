@@ -3,17 +3,19 @@
     width: 100%;
     display: flex;
     gap: 10px;
+    padding: 10px;
 
 }
 .card-centro{
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 20px;
+    justify-content: space-evenly;
+    padding: 10px;
     span{
         // margin-right: 60px;
         font-size: 40px;
-        font-weight: 600;
+        font-weight: 700;
+        color: #1e293b;
     }
     .total{
         display: flex;
@@ -38,13 +40,14 @@
     }
 }
 
-@media screen and (max-width: 850px){
+@media screen and (max-width: 950px){
     .card-centro{
         flex-direction: column;
     }
     .cards{
         flex-direction: column;
         gap: 20px;
+        padding: 5px;
     }
     .total{
         align-items: center;
