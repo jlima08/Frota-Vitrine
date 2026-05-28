@@ -34,8 +34,14 @@
 <p-toast></p-toast>
 
 <app-card-page title="Gerenciar Motoristas" icon="pi-user">
-    <p-button label="Novo Motorista" severity="contrast" [raised]="true" icon="pi pi-plus" cardPageRight
+    @if (!CadMotorista) {
+        <p-button label="Novo Motorista" severity="contrast" [raised]="true" icon="pi pi-plus" cardPageRight
         (onClick)="showCadMotorista()" />
+    }@else {
+        <p-button label="Fechar Formulário" severity="contrast" [raised]="true" icon="pi pi-times" cardPageRight
+        (onClick)="showCadMotorista()" />
+
+    }
 
     @if (CadMotorista) {
     <div class="cadastrarMotorista">
@@ -95,7 +101,7 @@
             <div class="btn-form">
                 <p-button icon="pi pi-save" label="Salvar" [loading]="loading" (onClick)="salvarMotorista()"
                     [raised]="true"></p-button>
-                <p-button icon="pi pi-times" label="Cancelar" severity="secondary" [raised]="true"
+                <p-button icon="pi pi-times" label="Cancelar" outlined="true" [raised]="true" severity="danger" [raised]="true"
                     (onClick)="resetFormulario()"></p-button>
             </div>
 

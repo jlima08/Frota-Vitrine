@@ -180,11 +180,11 @@ movimentacaoOptions: any;
 
           backgroundColor: [
 
-            '#3b82f6',
+            '#161616',
 
             '#f59e0b',
 
-            '#10b981'
+            '#2563eb'
           ],
 
           borderRadius: 8

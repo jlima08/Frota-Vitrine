@@ -2,7 +2,11 @@
 <p-confirmdialog></p-confirmdialog>
 <app-card-page title="Gerenciar Veículos" >
     <span cardIcon class="material-symbols-outlined car">car_gear</span>
-    <p-button label="Novo Veículo" severity="contrast" icon="pi pi-plus" cardPageRight (onClick)="showCadastrarVeiculo()" />
+    @if (!cadastrarVeiculo) {
+        <p-button label="Novo Veículo" severity="contrast" icon="pi pi-plus" cardPageRight (onClick)="showCadastrarVeiculo()" />
+    }@else {
+        <p-button label="Fechar Formulário" severity="contrast" icon="pi pi-times" cardPageRight (onClick)="showCadastrarVeiculo()" />        
+    }
 
      @if (cadastrarVeiculo) {
     <div class="cadastrarVeiculo">
@@ -95,7 +99,7 @@
             }@else if (veiculo.status == 'Em uso') {
                 <p-message styleClass="sm:w-[75%] min-w-[100px]" severity="warn" size="small" icon="pi pi-info-circle">{{ veiculo.status}}</p-message>
             }@else {
-                <p-message styleClass="sm:w-[80%] min-w-[100px]" severity="error" size="small" icon="pi pi-times-circle">{{ veiculo.status}}</p-message>
+                <p-message styleClass="sm:w-[75%] min-w-[100px]" severity="error" size="small" icon="pi pi-times-circle">{{ veiculo.status}}</p-message>
             }
             
         </td>
