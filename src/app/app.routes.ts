@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { LayoutRestritoComponent } from './layout-restrito/layout-restrito.component';
 import { VeiculosComponent } from './layout-restrito/veiculos/veiculos.component';
+import { roleGuard } from './core/guards/role.guard';
 
 export const routes: Routes = [
   {
@@ -28,13 +29,13 @@ export const routes: Routes = [
             .then(m => m.VeiculosComponent)
       },
       {
-        path: 'motorista',
+        path: 'motorista', canActivate: [ roleGuard ],
         loadComponent: () =>
           import('./layout-restrito/motorista/motorista.component')
             .then(m => m.MotoristaComponent)
       },
       {
-        path: 'gerenciar-veiculos',
+        path: 'gerenciar-veiculos', canActivate: [ roleGuard ],
         loadComponent: () =>
           import('./layout-restrito/gerenciar-veiculos/gerenciar-veiculos.component')
             .then(m => m.GerenciarVeiculosComponent)
@@ -52,7 +53,7 @@ export const routes: Routes = [
             .then(m => m.MinhaContaComponent)
       },
       {
-        path: 'dashboard',
+        path: 'dashboard', canActivate: [ roleGuard ],
         loadComponent: () =>
           import('./layout-restrito/dashboard/dashboard.component')
             .then(m => m.DashboardComponent)
