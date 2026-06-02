@@ -35,10 +35,10 @@
 
 <app-card-page title="Gerenciar Motoristas" icon="pi-user">
     @if (!CadMotorista) {
-        <p-button label="Novo Motorista" severity="contrast" [raised]="true" icon="pi pi-plus" cardPageRight
+        <p-button label="Novo Motorista" styleClass="hover:scale-[1.02] duration-100 !border-2" severity="success" outlined="true" [raised]="true" icon="pi pi-plus" cardPageRight
         (onClick)="showCadMotorista()" />
     }@else {
-        <p-button label="Fechar Formulário" severity="contrast" [raised]="true" icon="pi pi-times" cardPageRight
+        <p-button styleClass="hover:scale-[1.02] duration-100 !border-2" label="Fechar Formulário" severity="danger" outlined="true" [raised]="true" icon="pi pi-times" cardPageRight
         (onClick)="showCadMotorista()" />
 
     }

@@ -16,6 +16,7 @@ import { Tooltip, TooltipModule } from "primeng/tooltip";
 import { initializeApp } from 'firebase/app';
 import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
 import { environment } from '../../../enviroments/environments';
+import { SecondaryAuthService } from '../../service/secondary-auth.service';
 
 
 
@@ -32,7 +33,9 @@ export class MotoristaComponent {
 motoristaSelecionado?: Motorista;
 
    private motoristaService = inject(MotoristasService); 
-   private authService = inject(AuthService); 
+   private authService = inject(AuthService);
+   private secondaryAuthService =
+  inject(SecondaryAuthService); 
 
    roles = [
   {
@@ -118,6 +121,7 @@ showMenssage() {
     }
 
   salvarMotorista() {
+    
 
   if (
     !this.motorista.nome ||
@@ -132,8 +136,10 @@ showMenssage() {
 
     return;
   }
+  
 
   this.loading = true;
+  
 
   // EDITAR
   if (this.editando && this.motorista.id) {
@@ -158,17 +164,9 @@ showMenssage() {
   }
   
   // CADASTRAR
-  const secondaryApp = initializeApp(
-    environment.firebase,
-    'Secondary'
-  );
 
-  const secondaryAuth = getAuth(
-    secondaryApp
-  );
-
-  createUserWithEmailAndPassword(
-    secondaryAuth,
+  this.secondaryAuthService
+  .cadastrar(
     this.motorista.email,
     this.motorista.senha!
   )
