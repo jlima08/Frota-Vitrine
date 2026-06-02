@@ -3,9 +3,9 @@
 <app-card-page title="Gerenciar Veículos" >
     <span cardIcon class="material-symbols-outlined car">car_gear</span>
     @if (!cadastrarVeiculo) {
-        <p-button label="Novo Veículo" outlined="true" severity="info" styleClass="hover:scale-[1.02] duration-100 !border-2" icon="pi pi-plus" cardPageRight (onClick)="showCadastrarVeiculo()" />
+        <p-button label="Novo Veículo" outlined="true" raised="true" severity="info" styleClass="hover:scale-[1.02] duration-100 !border-2" icon="pi pi-plus" cardPageRight (onClick)="showCadastrarVeiculo()" />
     }@else {
-        <p-button styleClass="hover:scale-[1.02] duration-100 !border-2" outlined="true" label="Fechar Formulário" severity="danger" icon="pi pi-times" cardPageRight (onClick)="showCadastrarVeiculo()" />        
+        <p-button styleClass="hover:scale-[1.02] duration-100 !border-2" raised="true" outlined="true" label="Fechar Formulário" severity="danger" icon="pi pi-times" cardPageRight (onClick)="showCadastrarVeiculo()" />        
     }
 
      @if (cadastrarVeiculo) {
