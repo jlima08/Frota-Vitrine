@@ -11,4 +11,6 @@ export interface Movimentacao {
   dataDevolucao?: string | null;
   status: 'Em uso' | 'Finalizado';
   imagemPainel?: string;
+  imagemPainelDevolucao?: string;
+observacaoDevolucao?: string;
 }

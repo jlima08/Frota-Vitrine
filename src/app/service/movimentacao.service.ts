@@ -92,4 +92,22 @@ async uploadImagem(
 
   return getDownloadURL(storageRef);
 }
+
+atualizar(
+  id: string,
+  dados: Partial<Movimentacao>
+) {
+
+  const movimentacaoDoc = doc(
+
+    this.firestore,
+
+    `movimentacoes/${id}`
+  );
+
+  return updateDoc(
+    movimentacaoDoc,
+    dados
+  );
+}
 }

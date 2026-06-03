@@ -16,6 +16,7 @@ import { Movimentacao } from '../../interfaces/movimentacao.interface';
 import { FormsModule } from '@angular/forms';
 import { TextareaModule } from 'primeng/textarea';
 import { InputText } from "primeng/inputtext";
+import { FileUploadModule } from 'primeng/fileupload';
 
 
 @Component({
@@ -30,7 +31,7 @@ import { InputText } from "primeng/inputtext";
     DialogModule,
     FormsModule,
     TextareaModule,
-    InputText
+    FileUploadModule
 ],
   templateUrl: './veiculos.component.html',
   styleUrl: './veiculos.component.scss',
@@ -44,6 +45,7 @@ export class VeiculosComponent {
 
   dialogVisible = false;
   observacao = '';
+  imagemPreview = '';
   
   veiculoSelecionado?: Veiculo;
   veiculos: Veiculo[] = [];
@@ -77,12 +79,21 @@ export class VeiculosComponent {
 onFileSelect(event: any) {
 
   const file =
-    event.target.files[0];
+    event.files[0];
 
   if (file) {
 
     this.imagemPainel = file;
+
+    this.imagemPreview =
+      URL.createObjectURL(file);
   }
+}
+removerImagem() {
+
+  this.imagemPainel = undefined;
+
+  this.imagemPreview = '';
 }
 
 

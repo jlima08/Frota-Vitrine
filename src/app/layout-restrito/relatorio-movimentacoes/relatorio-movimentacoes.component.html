@@ -32,6 +32,92 @@
       <p>Sem foto</p>
     }
 
+     <div
+    *ngIf="
+      movimentacaoSelecionada
+        ?.imagemPainelDevolucao
+    ">
+
+
+<p class="font-bold">
+  Painel devolução
+</p>
+
+<p class="leading-7">
+  {{ movimentacaoSelecionada?.observacaoDevolucao }}
+</p>
+    <img
+      [src]="movimentacaoSelecionada?.imagemPainelDevolucao"
+      class="rounded-lg border"
+    />
+
+  </div>
+
+</p-dialog>
+<p-dialog
+
+  header="Devolução do veículo"
+
+  [(visible)]="modalDevolucao"
+
+  [modal]="true"
+
+  [style]="{ width: '35rem' }">
+
+  <div class="flex flex-col gap-4">
+
+    <textarea
+
+      pTextarea
+
+      [(ngModel)]="observacaoDevolucao"
+
+      rows="4"
+
+      placeholder="Observações da devolução">
+
+    </textarea>
+
+    <p-fileupload
+
+      accept="image/*"
+
+      [multiple]="false"
+
+      [customUpload]="true"
+
+      chooseLabel="Foto da devolução"
+
+      cancelLabel="Remover"
+
+      [showUploadButton]="false"
+
+      (onSelect)="onSelectImagemDevolucao($event)">
+
+    </p-fileupload>
+
+    <!-- @if (previewDevolucao) {
+
+      <img
+
+        [src]="previewDevolucao"
+
+        class="w-full rounded-lg border"
+      />
+    } -->
+
+    <p-button
+
+      label="Confirmar devolução"
+
+      severity="success"
+
+      (onClick)="confirmarDevolucaoFinal()">
+
+    </p-button>
+
+  </div>
+
 </p-dialog>
 <app-card-page title="Relatorios" icon="pi-file">
   <p-toast />

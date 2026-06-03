@@ -16,12 +16,13 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { Auth } from '@angular/fire/auth';
 import { MotoristasService } from '../../service/motoristas.service';
 import { DialogModule } from "primeng/dialog";
+import { FileUploadModule } from "primeng/fileupload";
 
 
 
 @Component({
   selector: 'app-relatorio-movimentacoes',
-  imports: [ButtonModule, CommonModule, TableModule, MessageModule, CardPageComponent, TooltipModule, FormsModule, InputTextModule, CommonModule, ToastModule, ConfirmDialogModule, DialogModule],
+  imports: [ButtonModule, CommonModule, TableModule, MessageModule, CardPageComponent, TooltipModule, FormsModule, InputTextModule, CommonModule, ToastModule, ConfirmDialogModule, DialogModule, FileUploadModule],
   templateUrl: './relatorio-movimentacoes.component.html',
   styleUrl: './relatorio-movimentacoes.component.scss',
   providers: [MessageService, ConfirmationService]
@@ -50,6 +51,12 @@ export class RelatorioMovimentacoesComponent {
   filtroModelo = '';
   filtroDataRetirada = '';
   filtroDataDevolucao = '';
+
+  //devolução
+  modalDevolucao = false;
+  imagemPainelDevolucao?: File;
+  previewDevolucao = '';
+  observacaoDevolucao = '';
 
   showFiltrosAvancados = false
 
@@ -233,8 +240,9 @@ confirmarDevolucao(event: Event, mov: Movimentacao) {
                 severity: 'info'
             },
             accept: () => {
-                this.messageService.add({ severity: 'info', summary: 'Veículo devolvido', detail: 'O veiculo voltarar a ficar disponivel' });
-                this.finalizar(mov);
+                 this.movimentacaoSelecionada = mov;
+
+                this.modalDevolucao = true;
             },
             reject: () => {
                 this.messageService.add({
@@ -246,5 +254,91 @@ confirmarDevolucao(event: Event, mov: Movimentacao) {
             },
         });
     }
+
+    onSelectImagemDevolucao(event: any) {
+
+  const file =
+    event.files[0];
+
+  if (file) {
+
+    this.imagemPainelDevolucao = file;
+
+    this.previewDevolucao =
+      URL.createObjectURL(file);
+  }
+}
+confirmarDevolucaoFinal() {
+
+  if (
+    !this.movimentacaoSelecionada ||
+    !this.imagemPainelDevolucao
+  ) {
+
+    this.messageService.add({
+
+      severity: 'error',
+
+      summary: 'Imagem obrigatória',
+
+      detail:
+        'Adicione a foto do painel'
+    });
+
+    return;
+  }
+
+  this.movimentacaoService
+
+    .uploadImagem(
+      this.imagemPainelDevolucao
+    )
+
+    .then((urlImagem) => {
+
+      return this.movimentacaoService
+        .atualizar(
+          this.movimentacaoSelecionada!.id!,
+          {
+
+            status: 'Finalizado',
+
+            dataDevolucao:
+              new Date().toISOString(),
+
+            imagemPainelDevolucao:
+              urlImagem,
+
+            observacaoDevolucao:
+              this.observacaoDevolucao
+          }
+        );
+    })
+
+    .then(() => {
+
+      return this.veiculoService
+        .atualizar(
+          this.movimentacaoSelecionada!
+            .veiculoId!,
+          {
+            status: 'Ativo'
+          }
+        );
+    })
+
+    .then(() => {
+
+      this.messageService.add({
+
+        severity: 'success',
+
+        summary:
+          'Veículo devolvido'
+      });
+
+      this.modalDevolucao = false;
+    });
+}
 
 }

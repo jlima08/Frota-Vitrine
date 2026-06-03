@@ -16,6 +16,10 @@
   border: 1px solid;
   cursor: pointer;
 }
+::ng-deep .p-fileupload-choose-button{
+  background-color: #1138a5 !important;
+  border: none !important;
+}
 
 textarea{
   padding: 2px;

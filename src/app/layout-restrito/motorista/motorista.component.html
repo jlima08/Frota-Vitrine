@@ -62,10 +62,15 @@
             </div>
             <div>
                 <p-floatlabel>
-                    <input pInputText id="over_label" autocomplete="off" [(ngModel)]="motorista.celular"
-                        name="celular" />
-                        
-                    <label for="over_label">Celular</label>
+                    <p-inputmask
+                        mask="(99) 99999-9999"
+                        [(ngModel)]="motorista.celular"
+                        name="celular"
+                        inputId="celular">
+                    </p-inputmask>
+                    <label for="celular">
+                        Celular
+                    </label>
                 </p-floatlabel>
             </div>
             <!-- <div>
