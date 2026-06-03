@@ -15,6 +15,7 @@ import { MotoristasService } from '../../service/motoristas.service';
 import { Movimentacao } from '../../interfaces/movimentacao.interface';
 import { FormsModule } from '@angular/forms';
 import { TextareaModule } from 'primeng/textarea';
+import { InputText } from "primeng/inputtext";
 
 
 @Component({
@@ -28,8 +29,9 @@ import { TextareaModule } from 'primeng/textarea';
     MessageModule,
     DialogModule,
     FormsModule,
-    TextareaModule
-  ],
+    TextareaModule,
+    InputText
+],
   templateUrl: './veiculos.component.html',
   styleUrl: './veiculos.component.scss',
   providers: [ConfirmationService, MessageService]
