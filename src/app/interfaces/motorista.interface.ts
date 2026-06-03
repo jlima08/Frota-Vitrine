@@ -3,7 +3,7 @@ export interface Motorista {
   nome: string;
   sobrenome: string;
   celular: string;
-  cargo: string;
+  cargo?: string;
   email: string;
   senha?: string;
   role: 'Administrador' | 'Motorista';

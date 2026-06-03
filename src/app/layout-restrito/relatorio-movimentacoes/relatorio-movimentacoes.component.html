@@ -9,10 +9,28 @@
     <!-- <i class="pi pi-file-edit"></i> -->
 
     <p class="leading-7">
-      {{ observacaoSelecionada }}
+      {{ movimentacaoSelecionada?.observacao }}
     </p>
 
   </div>
+  @if (movimentacaoSelecionada?.imagemPainel) {
+  <div class="fotoPainel">
+
+      <p class="font-bold text-[18px]">
+        Foto do painel:
+      </p>
+
+      <img [src]=" movimentacaoSelecionada?.imagemPainel "  alt="Painel"
+        class="w-full rounded-lg border shadow-sm"
+      />
+
+    </div>
+    }@else {
+      <p class="font-bold mb-2">
+        Foto do painel
+      </p>
+      <p>Sem foto</p>
+    }
 
 </p-dialog>
 <app-card-page title="Relatorios" icon="pi-file">
@@ -156,7 +174,7 @@
               icon="pi pi-eye"
               severity="contrast"
               size="small"
-              (onClick)="abrirObservacao(mov.observacao)">
+              (onClick)="abrirObservacao(mov)">
             </p-button>
 
           } @else {

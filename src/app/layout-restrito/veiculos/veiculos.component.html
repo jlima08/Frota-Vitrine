@@ -22,6 +22,19 @@
             placeholder="Digite uma observação">
         </textarea>
 
+         <div class="flex flex-col gap-2">
+
+    <label>
+      Foto do painel
+    </label>
+
+    <input
+      type="file"
+      accept="image/*"
+      capture="environment"
+      (change)="onFileSelect($event)">
+  </div>
+
         <div class="flex justify-end gap-2">
 
             <p-button

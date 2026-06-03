@@ -10,6 +10,7 @@ import Aura from '@primeng/themes/aura';
 import { environment } from '../enviroments/environments';
 
 import { routes } from './app.routes';
+import { getStorage, provideStorage } from '@angular/fire/storage';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -30,6 +31,9 @@ export const appConfig: ApplicationConfig = {
 
     provideAuth(() => getAuth()),
 
-    provideFirestore(() => getFirestore())
+    provideFirestore(() => getFirestore()),
+     provideStorage(() =>
+    getStorage()
+  )
   ]
 };

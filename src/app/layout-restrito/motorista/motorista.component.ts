@@ -17,12 +17,13 @@ import { initializeApp } from 'firebase/app';
 import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
 import { environment } from '../../../enviroments/environments';
 import { SecondaryAuthService } from '../../service/secondary-auth.service';
+import { InputMaskModule } from 'primeng/inputmask';
 
 
 
 @Component({
   selector: 'app-motorista',
-  imports: [ButtonModule, TableModule, InputTextModule, FloatLabelModule, CardPageComponent, FormsModule, SelectModule, DialogModule, ToastModule, TooltipModule],
+  imports: [ButtonModule, TableModule, InputTextModule, FloatLabelModule, CardPageComponent, FormsModule, SelectModule, DialogModule, ToastModule, TooltipModule, InputMaskModule],
   templateUrl: './motorista.component.html',
   styleUrl: './motorista.component.scss',
   providers: [MessageService]
@@ -127,7 +128,6 @@ showMenssage() {
     !this.motorista.nome ||
     !this.motorista.sobrenome ||
     !this.motorista.celular ||
-    !this.motorista.cargo ||
     !this.motorista.email ||
     !this.motorista.role
   ) {

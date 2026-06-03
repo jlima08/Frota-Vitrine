@@ -8,6 +8,14 @@ import {
   doc,
   updateDoc
 } from '@angular/fire/firestore';
+import {
+
+  getDownloadURL,
+  ref,
+  Storage,
+  uploadBytes
+
+} from '@angular/fire/storage';
 
 import { Observable } from 'rxjs';
 
@@ -19,6 +27,7 @@ import { Movimentacao } from '../interfaces/movimentacao.interface';
 export class MovimentacaoService {
 
   private firestore = inject(Firestore);
+  private storage = inject(Storage);
 
   cadastrar(movimentacao: Movimentacao) {
 
@@ -65,5 +74,22 @@ export class MovimentacaoService {
         new Date().toISOString()
     }
   );
+}
+
+async uploadImagem(
+  file: File
+) {
+
+  const caminho = `painel/${Date.now()}_${file.name}`;
+
+  const storageRef =
+    ref(this.storage, caminho);
+
+  await uploadBytes(
+    storageRef,
+    file
+  );
+
+  return getDownloadURL(storageRef);
 }
 }

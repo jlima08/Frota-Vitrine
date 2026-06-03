@@ -41,7 +41,8 @@ export class RelatorioMovimentacoesComponent {
 
   modalObservacao = false;
 
-  observacaoSelecionada = '';
+  // observacaoSelecionada = '';
+  movimentacaoSelecionada?: Movimentacao;
 
     //filtros
   filtroMotorista = '';
@@ -52,9 +53,9 @@ export class RelatorioMovimentacoesComponent {
 
   showFiltrosAvancados = false
 
-  abrirObservacao(observacao: string) {
+  abrirObservacao(mov: Movimentacao) {
 
-  this.observacaoSelecionada = observacao;
+  this.movimentacaoSelecionada = mov;
 
   this.modalObservacao = true;
 }

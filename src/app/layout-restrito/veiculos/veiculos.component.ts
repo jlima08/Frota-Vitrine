@@ -47,6 +47,7 @@ export class VeiculosComponent {
   veiculos: Veiculo[] = [];
   usuario: any;
    veiculo = this.veiculoSelecionado;
+   imagemPainel?: File;
 
  ngOnInit(): void {
 
@@ -71,6 +72,16 @@ export class VeiculosComponent {
   }
 }
 
+onFileSelect(event: any) {
+
+  const file =
+    event.target.files[0];
+
+  if (file) {
+
+    this.imagemPainel = file;
+  }
+}
 
 
   constructor(private confirmationService: ConfirmationService, private messageService: MessageService) { }
@@ -84,71 +95,121 @@ export class VeiculosComponent {
 
   confirmarSelecionado() {
 
-    const usuario = this.usuario;
+  const usuario = this.usuario;
 
-    if (!usuario || !this.veiculoSelecionado) {
-      return;
-    }    
+  if (
+    !usuario ||
+    !this.veiculoSelecionado
+  ) {
+    return;
+  }
 
-   const veiculo =
-  this.veiculoSelecionado;
-
-const movimentacao: Movimentacao = {
-
-  motoristaId: usuario.id,
-
-  motoristaNome:
-    usuario.nome + ' ' + usuario.sobrenome,
-
-  veiculoId:
-    veiculo.id!,
-
-  modelo:
-    veiculo.modelo,
-
-  placa:
-    veiculo.placa,
-
-  observacao:
-    this.observacao,
-
-  dataRetirada:
-    new Date().toISOString(),
-
-  dataDevolucao: '',
-
-  status: 'Em uso'
-};
-
-this.movimentacaoService
-  .cadastrar(movimentacao)
-
-  .then(() => {
-
-    return this.veiculoService.atualizar(
-      veiculo.id!,
-      {
-        status: 'Em uso'
-      }
-    );
-  })
-
-  .then(() => {
+  if (!this.imagemPainel) {
 
     this.messageService.add({
 
-      severity: 'success',
+      severity: 'error',
 
-      summary: 'Veículo selecionado',
+      summary: 'Imagem obrigatória',
 
-      detail: 'Movimentação registrada'
+      detail:
+        'Adicione uma foto do painel'
     });
 
-    this.dialogVisible = false;
-
-    this.observacao = '';
-  });
+    return;
   }
+
+  const veiculo =
+    this.veiculoSelecionado;
+
+  this.movimentacaoService
+
+    .uploadImagem(this.imagemPainel)
+
+    .then((imagemUrl) => {
+
+      const movimentacao: Movimentacao = {
+
+        motoristaId: usuario.id,
+
+        motoristaNome:
+          usuario.nome +
+          ' ' +
+          usuario.sobrenome,
+
+        veiculoId:
+          veiculo.id!,
+
+        modelo:
+          veiculo.modelo,
+
+        placa:
+          veiculo.placa,
+
+        observacao:
+          this.observacao,
+
+        imagemPainel:
+          imagemUrl,
+
+        dataRetirada:
+          new Date().toISOString(),
+
+        dataDevolucao: '',
+
+        status: 'Em uso'
+      };
+
+      return this.movimentacaoService
+        .cadastrar(movimentacao);
+    })
+
+    .then(() => {
+
+      return this.veiculoService
+        .atualizar(
+          veiculo.id!,
+          {
+            status: 'Em uso'
+          }
+        );
+    })
+
+    .then(() => {
+
+      this.messageService.add({
+
+        severity: 'success',
+
+        summary:
+          'Veículo selecionado',
+
+        detail:
+          'Movimentação registrada'
+      });
+
+      this.dialogVisible = false;
+
+      this.observacao = '';
+
+      this.imagemPainel = undefined;
+    })
+
+    .catch(error => {
+
+      console.error(error);
+
+      this.messageService.add({
+
+        severity: 'error',
+
+        summary: 'Erro',
+
+        detail:
+          'Erro ao registrar movimentação'
+      });
+    });
+}
 
   confirmarCar(carros: Veiculo) {
     this.confirmationService.confirm({
